@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.version      = "1.0.1"
   s.summary      = "iOS UITabBar inspired by Google's Paper Material Design."
   s.homepage     = "https://github.com/bfeher/BFPaperTabBar"
-  s.license      = { :type => 'MIT', :file => 'LICENSE.md' }
+  s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Bence Feher" => "ben.feher@gmail.com" }
   s.source       = { :git => "https://github.com/bfeher/BFPaperTabBarController.git", :tag => "1.0.1" }
   s.platform     = :ios, '7.0'
