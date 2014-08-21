@@ -68,6 +68,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        [self setup];
     }
     return self;
 }
