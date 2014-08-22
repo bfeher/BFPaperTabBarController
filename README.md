@@ -47,6 +47,11 @@ A flag to set to YES to show an underline bar that tracks the currently selected
 A flag to set to YES to show the tap-circle and background fade. If NO, they will not appear.
 
 
+To Do
+---------
+Support tabBars with non-equally distributed tab widths.
+
+
 Usage
 ---------
 Add the _BFPaperTabBarController_ header and implementation file to your project. (.h & .m)
