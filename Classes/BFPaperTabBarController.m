@@ -378,8 +378,10 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     self.growthFinished = YES;
     
     if ([[theAnimation2 valueForKey:@"id"] isEqualToString:@"fadeCircleOut"]) {
-        [[self.deathRowForCircleLayers objectAtIndex:0] removeFromSuperlayer];
-        [self.deathRowForCircleLayers removeObjectAtIndex:0];
+        if (self.deathRowForCircleLayers.count > 0) {
+            [[self.deathRowForCircleLayers objectAtIndex:0] removeFromSuperlayer];
+            [self.deathRowForCircleLayers removeObjectAtIndex:0];
+        }
     }
     else if ([[theAnimation2 valueForKey:@"id"] isEqualToString:@"removeFadeBackgroundDarker"]) {
         self.backgroundColorFadeLayer.backgroundColor = [UIColor clearColor].CGColor;
@@ -536,8 +538,12 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     //NSLog(@"Fading away");
     
     CALayer *tempAnimationLayer = [self.rippleAnimationQueue firstObject];
-    [self.rippleAnimationQueue removeObjectAtIndex:0];
-    [self.deathRowForCircleLayers addObject:tempAnimationLayer];
+    if (nil != tempAnimationLayer) {
+        [self.deathRowForCircleLayers addObject:tempAnimationLayer];
+    }
+    if (self.rippleAnimationQueue.count > 0) {
+        [self.rippleAnimationQueue removeObjectAtIndex:0];
+    }
     
     CABasicAnimation *fadeOut = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [fadeOut setValue:@"fadeCircleOut" forKey:@"id"];
