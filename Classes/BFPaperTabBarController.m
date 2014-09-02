@@ -34,6 +34,7 @@
 @property CALayer *backgroundColorFadeLayer;
 @property BOOL growthFinished;
 @property NSMutableArray *rippleAnimationQueue;
+@property NSMutableArray *deathRowForCircleLayers;  // This is where old circle layers go to be killed :(
 @property CGPoint tapPoint;
 @property NSInteger selectedTabIndex;
 @property CALayer *underlineLayer;
@@ -68,7 +69,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        [self setup];
+        [self setupBFPaperTabBarController];
     }
     return self;
 }
@@ -78,7 +79,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     self = [super initWithCoder:aDecoder];
     if (self) {
         // Initialization code
-        [self setup];
+        [self setupBFPaperTabBarController];
     }
     return self;
 }
@@ -88,7 +89,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     self = [super init];
     if (self) {
         // Initialization code
-        [self setup];
+        [self setupBFPaperTabBarController];
     }
     return self;
 }
@@ -135,7 +136,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 
 #pragma mark - Setup
-- (void)setup
+- (void)setupBFPaperTabBarController
 {
     // Defaults:
     self.underlineThickness = 2.f;
@@ -179,6 +180,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     [self setUnderlineForTabIndex:0 animated:NO];
     
     self.rippleAnimationQueue = [NSMutableArray array];
+    self.deathRowForCircleLayers = [NSMutableArray array];
 }
 
 - (void)setBackgroundFadeLayerForTabAtIndex:(NSInteger)index
@@ -370,17 +372,23 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 
 #pragma mark - Animation
+- (void)animationDidStop:(CAAnimation *)theAnimation2 finished:(BOOL)flag
+{
+    //NSLog(@"animation ENDED");
+    self.growthFinished = YES;
+    
+    if ([[theAnimation2 valueForKey:@"id"] isEqualToString:@"fadeCircleOut"]) {
+        [[self.deathRowForCircleLayers objectAtIndex:0] removeFromSuperlayer];
+        [self.deathRowForCircleLayers removeObjectAtIndex:0];
+    }
+    else if ([[theAnimation2 valueForKey:@"id"] isEqualToString:@"removeFadeBackgroundDarker"]) {
+        self.backgroundColorFadeLayer.backgroundColor = [UIColor clearColor].CGColor;
+    }
+}
+
 - (void)growTapCircle
 {
     //NSLog(@"expanding a tap circle");
-    
-    // Spawn a growing circle that "ripples" through the button:
-    UIView *tab = [self viewForTabBarItemAtIndex:self.selectedTabIndex];
-    
-    CALayer *tempAnimationLayer = [CALayer new];
-    tempAnimationLayer.frame = self.currentTabRect;
-    tempAnimationLayer.cornerRadius = tab.layer.cornerRadius;
-    
     
     // Set the fill color for the tap circle (self.animationLayer's fill color):
     if (!self.tapCircleColor) {
@@ -406,13 +414,15 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     
     [self.backgroundColorFadeLayer addAnimation:fadeBackgroundDarker forKey:@"animateOpacity"];
     
-    // Set animation layer's background color:
-    tempAnimationLayer.backgroundColor = self.tapCircleColor.CGColor;
-    tempAnimationLayer.borderColor = [UIColor clearColor].CGColor;
-    tempAnimationLayer.borderWidth = 0;
+    UIView *tab = [self viewForTabBarItemAtIndex:self.selectedTabIndex];
+
+    CALayer *tapCircleLayer = [CALayer new];
+    tapCircleLayer.frame = self.currentTabRect;
+    tapCircleLayer.cornerRadius = tab.layer.cornerRadius;
+    tapCircleLayer.backgroundColor = self.tapCircleColor.CGColor;
+    tapCircleLayer.borderColor = [UIColor clearColor].CGColor;
+    tapCircleLayer.borderWidth = 0;
     
-    
-    // Animation Mask Rects
     CGRect normalizedTabRect = [self normalizedRectForRect:self.currentTabRect];
     CGPoint center = CGPointMake(CGRectGetMidX(normalizedTabRect), CGRectGetMidY(normalizedTabRect));
     CGPoint origin = self.rippleFromTapLocation ? self.tapPoint : center;
@@ -422,6 +432,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     CGFloat tapCircleDiameterEndValue = (self.tapCircleDiameter < 0) ? MAX(self.currentTabRect.size.width, self.currentTabRect.size.height) : self.tapCircleDiameter;
     UIBezierPath *endTapCirclePath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(origin.x - (tapCircleDiameterEndValue/ 2.f), origin.y - (tapCircleDiameterEndValue/ 2.f), tapCircleDiameterEndValue, tapCircleDiameterEndValue) cornerRadius:tapCircleDiameterEndValue/ 2.f];
     
+    
     // Animation Mask Layer:
     CAShapeLayer *animationMaskLayer = [CAShapeLayer layer];
     animationMaskLayer.path = endTapCirclePath.CGPath;
@@ -430,7 +441,12 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     animationMaskLayer.borderColor = [UIColor clearColor].CGColor;
     animationMaskLayer.borderWidth = 0;
     
-    tempAnimationLayer.mask = animationMaskLayer;
+    tapCircleLayer.mask = animationMaskLayer;
+    
+    // Add the animation layer to our animation queue and insert it into our view:
+    [self.rippleAnimationQueue addObject:tapCircleLayer];
+    [self.animationsView.layer insertSublayer:tapCircleLayer above:self.backgroundColorFadeLayer];
+
     
     // Grow tap-circle animation:
     CABasicAnimation *tapCircleGrowthAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
@@ -453,19 +469,8 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     fadeIn.fillMode = kCAFillModeForwards;
     fadeIn.removedOnCompletion = NO;
     
-    
-    // Add the animation layer to our animation queue and insert it into our view:
-    [self.rippleAnimationQueue addObject:tempAnimationLayer];
-    [self.animationsView.layer insertSublayer:tempAnimationLayer above:self.backgroundColorFadeLayer];
-    
     [animationMaskLayer addAnimation:tapCircleGrowthAnimation forKey:@"animatePath"];
-    [tempAnimationLayer addAnimation:fadeIn forKey:@"opacityAnimation"];
-}
-
-- (void)animationDidStop:(CAAnimation *)theAnimation2 finished:(BOOL)flag
-{
-    //NSLog(@"animation ENDED");
-    self.growthFinished = YES;
+    [tapCircleLayer addAnimation:fadeIn forKey:@"opacityAnimation"];
 }
 
 - (void)fadeBackgroundOut
@@ -474,6 +479,8 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     
     // Remove darkened background fade:
     CABasicAnimation *removeFadeBackgroundDarker = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [removeFadeBackgroundDarker setValue:@"removeFadeBackgroundDarker" forKey:@"id"];
+    removeFadeBackgroundDarker.delegate = self;
     removeFadeBackgroundDarker.duration = bfPaperTabBarController_animationDurationConstant;
     removeFadeBackgroundDarker.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     removeFadeBackgroundDarker.fromValue = [NSNumber numberWithFloat:bfPaperTabBarController_backgroundFadeConstant];
@@ -530,8 +537,11 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     
     CALayer *tempAnimationLayer = [self.rippleAnimationQueue firstObject];
     [self.rippleAnimationQueue removeObjectAtIndex:0];
+    [self.deathRowForCircleLayers addObject:tempAnimationLayer];
     
     CABasicAnimation *fadeOut = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [fadeOut setValue:@"fadeCircleOut" forKey:@"id"];
+    fadeOut.delegate = self;
     fadeOut.fromValue = [NSNumber numberWithFloat:tempAnimationLayer.opacity];
     fadeOut.toValue = [NSNumber numberWithFloat:0.f];
     fadeOut.duration = bfPaperTabBarController_tapCircleGrowthDurationConstant;
