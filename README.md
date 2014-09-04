@@ -46,6 +46,12 @@ A flag to set to YES to show an underline bar that tracks the currently selected
 `BOOL showTapCircleAndBackgroundFade`<br />
 A flag to set to YES to show the tap-circle and background fade. If NO, they will not appear.
 
+## Functions
+`(void)selectTabAtIndex:(NSInteger)index animated:(BOOL)animated`<br />
+Selects and highlights a tab.<br />
+@param index    (NSInteger) The index of the tab you wish to select and highlight.<br />
+@param animated (BOOL) A flag to determine if we should animate the change or not.
+
 
 To Do
 ---------
@@ -103,7 +109,7 @@ Learn more at http://cocoapods.org
 Add this to your podfile to add BFPaperTabBarController to your project.
 ```ruby
 platform :ios, '7.0'
-pod 'BFPaperTabBarController', '~> 1.1.2'
+pod 'BFPaperTabBarController', '~> 1.2.1'
 ```
 
 

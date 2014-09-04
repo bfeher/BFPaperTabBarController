@@ -37,10 +37,11 @@
 @property NSMutableArray *deathRowForCircleLayers;  // This is where old circle layers go to be killed :(
 @property CGPoint tapPoint;
 @property NSInteger selectedTabIndex;
-@property CALayer *underlineLayer;
+@property UIView *underlineLayer;
 @property UIView *animationsView;
 @property UIView *invisibleTouchView;
 @property (nonatomic) NSMutableArray *tabRects;
+@property (nonatomic) NSMutableArray *invisibleTappableTabRects;
 @property CGRect currentTabRect;
 @end
 
@@ -49,6 +50,8 @@
 // -animation durations:
 static CGFloat const bfPaperTabBarController_animationDurationConstant       = 0.2f;
 static CGFloat const bfPaperTabBarController_tapCircleGrowthDurationConstant = bfPaperTabBarController_animationDurationConstant * 2;
+static CGFloat const bfPaperTabBarController_fadeOut                         = bfPaperTabBarController_tapCircleGrowthDurationConstant * 2;
+
 // -the tap-circle's size:
 static CGFloat const bfPaperTabBarController_tapCircleDiameterStartValue     = 5.f;   // for the mask
 // -the tap-circle's beauty:
@@ -126,6 +129,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     [super viewDidLayoutSubviews];
     
     self.tabRects = [self calculateTabRects];
+    self.invisibleTappableTabRects = [self calculateInvisibleTabRects];
     self.animationsView.frame = self.tabBar.bounds;
     self.invisibleTouchView.frame = self.tabBar.frame;
     
@@ -177,7 +181,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     self.backgroundFadeColor = nil;
     self.underlineColor = nil;
     
-    [self setUnderlineForTabIndex:0 animated:NO];
+    [self setUnderlineForTabIndex:self.selectedTabIndex animated:NO];
     
     self.rippleAnimationQueue = [NSMutableArray array];
     self.deathRowForCircleLayers = [NSMutableArray array];
@@ -185,6 +189,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 - (void)setBackgroundFadeLayerForTabAtIndex:(NSInteger)index
 {
+    //NSLog(@"setting bg fade to index: %d", index);
     [self.backgroundColorFadeLayer removeFromSuperlayer];
     
     CGRect endRect = [[self.tabRects objectAtIndex:index] CGRectValue];
@@ -195,9 +200,9 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     [self.animationsView.layer insertSublayer:self.backgroundColorFadeLayer atIndex:0];
 }
 
-- (void)setUnderlineForTabIndex:(NSInteger)index animated:(BOOL)animated
+- (void)setUnderlineForTabIndex:(NSInteger)index animated:(BOOL)animated    // animated affects nothing. What's going on?
 {
-    CGFloat duration = animated ? bfPaperTabBarController_animationDurationConstant : 0.f;
+    //NSLog(@"setting underline to index: %d", index);
     
     CGRect tabRect = [[self.tabRects objectAtIndex:index] CGRectValue];
     
@@ -205,15 +210,21 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     if (!bgColor) {
         bgColor = self.usesSmartColor ? self.tabBar.tintColor : BFPAPERTABBARCONTROLLER__DUMB_UNDERLINE_COLOR;
     }
-    self.underlineLayer.backgroundColor = bgColor.CGColor;
+    self.underlineLayer.backgroundColor = bgColor;
     CGFloat x = tabRect.origin.x;
     CGFloat y = tabRect.size.height - self.underlineThickness;
     CGFloat w = tabRect.size.width;
     
-    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    if (animated) {
+        CGFloat duration = bfPaperTabBarController_animationDurationConstant;
+        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.underlineLayer.frame = CGRectMake(x, y, w, self.underlineThickness);
+        } completion:^(BOOL finished) {
+        }];
+    }
+    else {
         self.underlineLayer.frame = CGRectMake(x, y, w, self.underlineThickness);
-    } completion:^(BOOL finished) {
-    }];
+    }
 }
 
 
@@ -226,26 +237,44 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     return _tabRects;
 }
 
+- (NSMutableArray *)invisibleTappableTabRects
+{
+    if (!_invisibleTappableTabRects) {
+        _invisibleTappableTabRects = [self calculateInvisibleTabRects];
+    }
+    return _invisibleTappableTabRects;
+}
+
 - (void)setShowUnderline:(BOOL)showUnderline
 {
     if (_showUnderline != showUnderline) {
         _showUnderline = showUnderline;
         
         if (!_showUnderline) {
-            [self.underlineLayer removeFromSuperlayer];
+            [self.underlineLayer removeFromSuperview];
         }
         else if (!self.underlineLayer) {
             CGFloat y = self.tabBar.bounds.size.height - self.underlineThickness;
-            self.underlineLayer = [CALayer layer];
+            self.underlineLayer = [UIView new];
             self.underlineLayer.frame = CGRectMake(self.tabBar.bounds.origin.x, y, self.tabBar.bounds.size.width, self.underlineThickness);
             NSLog(@"underline frame: (%0.2f, %0.2f, %0.2f, %0.2f)", self.underlineLayer.frame.origin.x, self.underlineLayer.frame.origin.y, self.underlineLayer.frame.size.width, self.underlineLayer.frame.size.height);
 
-            [self.animationsView.layer addSublayer:self.underlineLayer];
-            [self setUnderlineForTabIndex:0 animated:NO];
+            [self.animationsView addSubview:self.underlineLayer];
+            [self setUnderlineForTabIndex:self.selectedTabIndex animated:NO];
         }
     }
 }
 
+
+#pragma mark - Utility Functions
+- (void)selectTabAtIndex:(NSInteger)index animated:(BOOL)animated
+{
+    [self setSelectedIndex:index];
+    self.selectedTabIndex = index;
+    [self setUnderlineForTabIndex:index animated:animated];
+    [self setBackgroundFadeLayerForTabAtIndex:index];
+}
+ 
 
 #pragma mark - Gesture Recognizer Handlers
 - (void)handleLongPress:(UILongPressGestureRecognizer *)longPress
@@ -295,31 +324,31 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 - (void)selectTabForPoint:(CGPoint)point
 {
-    for (int i = 0; i < self.tabRects.count; i++) {
-        CGRect rect = [[self.tabRects objectAtIndex:i] CGRectValue];
+    for (int i = 0; i < self.invisibleTappableTabRects.count; i++) {
+        CGRect rect = [[self.invisibleTappableTabRects objectAtIndex:i] CGRectValue];
         if (CGRectContainsPoint(rect, point)) {
             // We got a hit! Now determine if its a 'More' tab or a regular tab:
             // Assuming (I hate to do this...) that the 'More' tab is the last one:
             
-            if (i == self.tabRects.count -1
+            if (i == self.invisibleTappableTabRects.count -1
                 &&
                 self.tabBar.items.count < self.customizableViewControllers.count) {
                 self.selectedTabIndex = i;
-                self.currentTabRect = rect;
+                self.currentTabRect = [[self.tabRects objectAtIndex:i] CGRectValue];
                 // Since we have more tabs than are visible, I will again assume (I can feel the code breaking down around me...) that it is a 'More' tab:
                 [self setSelectedViewController:self.moreNavigationController];
                 if (self.showUnderline) {
-                    [self setUnderlineForTabIndex:i animated:NO];
+                    [self setUnderlineForTabIndex:i animated:YES];
                 }
                 break;
             }
             else {
                 self.selectedTabIndex = i;
-                self.currentTabRect = rect;
+                self.currentTabRect = [[self.tabRects objectAtIndex:i] CGRectValue];;
                 // Just select this last tab:
                 [self setSelectedIndex:i];
                 if (self.showUnderline) {
-                    [self setUnderlineForTabIndex:i animated:NO];
+                    [self setUnderlineForTabIndex:i animated:YES];
                 }
                 break;
             }
@@ -347,6 +376,19 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     NSMutableArray *returnArray = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
     for (int i = 0; i < tabCount; i++) {
         CGRect tabRect = CGRectMake(tabWidth * i, 0, tabWidth, tabBarRect.size.height);
+        [returnArray addObject:[NSValue valueWithCGRect:tabRect]];
+    }
+    return returnArray;
+}
+
+- (NSMutableArray *)calculateInvisibleTabRects
+{
+    CGRect tabBarRect = self.tabBar.bounds;
+    NSInteger tabCount = self.tabBar.items.count;
+    CGFloat tabWidth = tabBarRect.size.width / tabCount;
+    NSMutableArray *returnArray = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
+    for (int i = 0; i < tabCount; i++) {
+        CGRect tabRect = CGRectMake(tabWidth * i, -10, tabWidth, tabBarRect.size.height + 10);
         [returnArray addObject:[NSValue valueWithCGRect:tabRect]];
     }
     return returnArray;
@@ -384,7 +426,12 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
         }
     }
     else if ([[theAnimation2 valueForKey:@"id"] isEqualToString:@"removeFadeBackgroundDarker"]) {
-        self.backgroundColorFadeLayer.backgroundColor = [UIColor clearColor].CGColor;
+        if (flag) {
+            self.backgroundColorFadeLayer.backgroundColor = [UIColor clearColor].CGColor;
+        }
+        else {
+            self.backgroundColorFadeLayer.backgroundColor = self.backgroundFadeColor.CGColor;
+        }
     }
 }
 
@@ -396,7 +443,6 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     if (!self.tapCircleColor) {
         self.tapCircleColor = self.usesSmartColor ? [self.tabBar.tintColor colorWithAlphaComponent:bfPaperTabBarController_tapFillConstant] : BFPAPERTABBARCONTROLLER__DUMB_TAP_FILL_COLOR;
     }
-    
     if (!self.backgroundFadeColor) {
         self.backgroundFadeColor = self.usesSmartColor ? self.tabBar.tintColor : BFPAPERTABBARCONTROLLER__DUMB_BG_FADE_COLOR;
     }
@@ -483,7 +529,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     CABasicAnimation *removeFadeBackgroundDarker = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [removeFadeBackgroundDarker setValue:@"removeFadeBackgroundDarker" forKey:@"id"];
     removeFadeBackgroundDarker.delegate = self;
-    removeFadeBackgroundDarker.duration = bfPaperTabBarController_animationDurationConstant;
+    removeFadeBackgroundDarker.duration = bfPaperTabBarController_fadeOut;
     removeFadeBackgroundDarker.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     removeFadeBackgroundDarker.fromValue = [NSNumber numberWithFloat:bfPaperTabBarController_backgroundFadeConstant];
     removeFadeBackgroundDarker.toValue = [NSNumber numberWithFloat:0.f];
@@ -523,7 +569,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     
     // Grow tap-circle animation:
     CABasicAnimation *tapCircleGrowthAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-    tapCircleGrowthAnimation.duration = bfPaperTabBarController_tapCircleGrowthDurationConstant;
+    tapCircleGrowthAnimation.duration = bfPaperTabBarController_fadeOut;
     tapCircleGrowthAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     tapCircleGrowthAnimation.fromValue = (__bridge id)startingTapCirclePath.CGPath;
     tapCircleGrowthAnimation.toValue = (__bridge id)endTapCirclePath.CGPath;
@@ -550,7 +596,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     fadeOut.delegate = self;
     fadeOut.fromValue = [NSNumber numberWithFloat:tempAnimationLayer.opacity];
     fadeOut.toValue = [NSNumber numberWithFloat:0.f];
-    fadeOut.duration = bfPaperTabBarController_tapCircleGrowthDurationConstant;
+    fadeOut.duration = bfPaperTabBarController_fadeOut;
     fadeOut.fillMode = kCAFillModeForwards;
     fadeOut.removedOnCompletion = NO;
     

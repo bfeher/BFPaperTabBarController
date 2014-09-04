@@ -68,4 +68,13 @@ static CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -1.f;
 /** A flag to set to YES to show the tap-circle and background fade. If NO, they will not appear. */
 @property BOOL showTapCircleAndBackgroundFade;
 
+#pragma mark - Utility Functions
+/**
+ *  Selects and highlights a tab.
+ *
+ *  @param index    (NSInteger) The index of the tab you wish to select and highlight.
+ *  @param animated (BOOL) A flag to determine if we should animate the change or not.
+ */
+- (void)selectTabAtIndex:(NSInteger)index animated:(BOOL)animated;
+
 @end

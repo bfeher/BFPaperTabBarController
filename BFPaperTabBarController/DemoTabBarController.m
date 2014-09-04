@@ -54,6 +54,12 @@
     [self demoSetup];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self selectTabAtIndex:2 animated:NO]; // set the currently selected tab!!
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -88,11 +94,11 @@
     
 //    self.tapCircleDiameter = bfPaperTabBarController_tapCircleDiameterSmall;    // Set this to customize the tap-circle diameter.
     
-//    self.underlineColor = [UIColor paperColorDeepPurpleA400]; // Set this to customize the color of the underline which highlights the currently selected tab.
+//    self.underlineColor = [UIColor paperColorAmber]; // Set this to customize the color of the underline which highlights the currently selected tab.
     
 //    self.showUnderline = NO;  // YES = show the underline bar, NO = hide the underline bar.
     
-//    self.underlineThickness = 4.f;    // Set this to adjust the thickness (height) of the underline bar. Not that any value greater than 1 could cover up parts of the TabBarItem's title.
+//    self.underlineThickness = 14.f;    // Set this to adjust the thickness (height) of the underline bar. Not that any value greater than 1 could cover up parts of the TabBarItem's title.
     
 //    self.showTapCircleAndBackgroundFade = NO; // YES = show the tap-circles and add a color fade the background. NO = do not show the tap-circles and background fade.
 }
