@@ -46,6 +46,10 @@ A flag to set to YES to show an underline bar that tracks the currently selected
 `BOOL showTapCircleAndBackgroundFade`<br />
 A flag to set to YES to show the tap-circle and background fade. If NO, they will not appear.
 
+`id <BFPaperTabBarControllerDelegate, UITabBarControllerDelegate> delegate`<br />
+A delegate that serves our UITabBarControllerDelegate as well as our BFPaperTabBarControllerDelegate. Note that the UITabBarControllerDelegate methods: `-(BOOL)shouldSelecteViewController...` and `-(void)didSelectViewController` are not called. Sorry, don't know when this will be fixed. But until then, please make do with the BFPaperTabBcontrollerDelegate method -(BOOL)shouldSelectViewControllerAtIndex... and create your own delegates between your viewControllers and TabBarController to check if they have been selected.
+
+
 ## Functions
 `(void)selectTabAtIndex:(NSInteger)index animated:(BOOL)animated`<br />
 Selects and highlights a tab.<br />
@@ -53,9 +57,18 @@ Selects and highlights a tab.<br />
 @param animated (BOOL) A flag to determine if we should animate the change or not.
 
 
-To Do
+## Delegate Method
+`(BOOL)bfPaperTabBarController:(BFPaperTabBarController *)paperTabBarController shouldSelectViewControllerAtIndex:(NSInteger)index`<br />
+Required protocol method to sort of replace UITabBarController's `-(BOOL)shouldSelecteViewController...` method. It's not a direct replacement though, so be careful!<br />
+@param paperTabBarController The BFPaperTabBarController sending this message.<br />
+@param index                 The NSInteger index of the tab to investigate.<br />
+@return BOOL: YES|NO. YES will select the tab, NO will not.
+
+
+To Do (Will accept pull requests implementing these features ;] )
 ---------
-Support tabBars with non-equally distributed tab widths.
+Support tabBars with non-equally distributed tab widths.<br />
+Signal ALL UITabBarControllerDelegate methods. (Missing 2 stated above.)
 
 
 Usage
@@ -109,7 +122,7 @@ Learn more at http://cocoapods.org
 Add this to your podfile to add BFPaperTabBarController to your project.
 ```ruby
 platform :ios, '7.0'
-pod 'BFPaperTabBarController', '~> 1.2.1'
+pod 'BFPaperTabBarController', '~> 1.2.2'
 ```
 
 

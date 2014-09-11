@@ -30,6 +30,21 @@
 
 #import <UIKit/UIKit.h>
 
+@class BFPaperTabBarController;
+@protocol BFPaperTabBarControllerDelegate <NSObject>
+/**
+ *  Required protocol method to sort of replace UITabBarController's -(BOOL)shouldSelecteViewController method. It's not a direct replacement though, so be careful!
+ *
+ *  @param paperTabBarController The BFPaperTabBarController sending this message.
+ *  @param index                 The NSInteger index of the tab to investigate.
+ *
+ *  @return BOOL: YES|NO. YES will select the tab, NO will not.
+ */
+- (BOOL)bfPaperTabBarController:(BFPaperTabBarController *)paperTabBarController shouldSelectViewControllerAtIndex:(NSInteger)index;
+@end
+
+// Constant for index not found error when trying to select an index that does not exist:
+extern NSInteger const bfPaperTabBarControllerIndexError;
 
 // Nice circle diameter constants with ugly names:
 static CGFloat const bfPaperTabBarController_tapCircleDiameterMedium = 200.f;
@@ -67,6 +82,11 @@ static CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -1.f;
 
 /** A flag to set to YES to show the tap-circle and background fade. If NO, they will not appear. */
 @property BOOL showTapCircleAndBackgroundFade;
+
+/**
+ *  A delegate that serves our UITabBarControllerDelegate as well as our BFPaperTabBarControllerDelegate. Note that the UITabBarControllerDelegate methods: -(BOOL)shouldSelecteViewController... and -(void)didSelectViewController are not called. Sorry, don't know when this will be fixed. But until then, please make do with the BFPaperTabBcontrollerDelegate method -(BOOL)shouldSelectViewControllerAtIndex... and create your own delegates between your viewControllers and TabBarController to check if they have been selected.
+ */
+@property (nonatomic, weak) id <BFPaperTabBarControllerDelegate, UITabBarControllerDelegate> delegate;
 
 #pragma mark - Utility Functions
 /**

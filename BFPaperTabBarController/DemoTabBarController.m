@@ -79,6 +79,9 @@
 
 - (void)demoSetup
 {
+    // For demo, make self my own delegate so I can use it:
+//    self.delegate = self;   // Uncomment this to see how to restrict which tabs are selectable using our delegate method below!
+    
     self.tabBar.tintColor = [UIColor paperColorDeepPurpleA400]; // set the tab bar tint color to something cool.
     
     /*
@@ -101,6 +104,16 @@
 //    self.underlineThickness = 14.f;    // Set this to adjust the thickness (height) of the underline bar. Not that any value greater than 1 could cover up parts of the TabBarItem's title.
     
 //    self.showTapCircleAndBackgroundFade = NO; // YES = show the tap-circles and add a color fade the background. NO = do not show the tap-circles and background fade.
+}
+
+
+#pragma mark - BFPaperTabBarController Delegate
+- (BOOL)bfPaperTabBarController:(BFPaperTabBarController *)paperTabBarController shouldSelectViewControllerAtIndex:(NSInteger)index
+{
+    if (index == paperTabBarController.tabBar.items.count - 1) {
+        return NO;  // don't let us select the last tab.
+    }
+    return YES;
 }
 
 @end

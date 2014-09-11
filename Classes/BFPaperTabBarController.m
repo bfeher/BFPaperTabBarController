@@ -45,6 +45,8 @@
 @property CGRect currentTabRect;
 @end
 
+NSInteger const bfPaperTabBarControllerIndexError = -331;
+
 @implementation BFPaperTabBarController
 // Constants used for tweaking the look/feel of:
 // -animation durations:
@@ -63,7 +65,6 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 #define BFPAPERTABBARCONTROLLER__DUMB_TAP_FILL_COLOR    [UIColor colorWithWhite:0.1 alpha:bfPaperTabBarController_tapFillConstant]
 #define BFPAPERTABBARCONTROLLER__DUMB_BG_FADE_COLOR     [UIColor colorWithWhite:0.3 alpha:1]
 #define BFPAPERTABBARCONTROLLER__DUMB_UNDERLINE_COLOR   [UIColor colorWithWhite:0.3 alpha:1]
-
 
 
 #pragma mark - Default Initializers
@@ -274,18 +275,40 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     [self setUnderlineForTabIndex:index animated:animated];
     [self setBackgroundFadeLayerForTabAtIndex:index];
 }
- 
+
+- (NSInteger)indexForTabAtPoint:(CGPoint)point
+{
+    for (int i = 0; i < self.invisibleTappableTabRects.count; i++) {
+        CGRect rect = [[self.invisibleTappableTabRects objectAtIndex:i] CGRectValue];
+        if (CGRectContainsPoint(rect, point)) {
+            return i;
+        }
+    }
+    NSLog(@"Something is wrong. Trying to select an index that does not exist and will probably behave unexpectedly!");
+    return bfPaperTabBarControllerIndexError;
+}
+
 
 #pragma mark - Gesture Recognizer Handlers
 - (void)handleLongPress:(UILongPressGestureRecognizer *)longPress
 {
+    CGPoint location = [longPress locationInView:longPress.view];
+    //NSLog(@"pressed at location (%0.2f, %0.2f)", location.x, location.y);
+    
+    NSInteger index = [self indexForTabAtPoint:location];
+    
+    if (nil != self.delegate
+        &&
+        (![self.delegate bfPaperTabBarController:self shouldSelectViewControllerAtIndex:index]
+        ||
+        index == bfPaperTabBarControllerIndexError)) {
+        return;
+    }
+    
     if (longPress.state == UIGestureRecognizerStateBegan) {
         //NSLog(@"Press began...");
         
-        CGPoint location = [longPress locationInView:longPress.view];
-        //NSLog(@"pressed at location (%0.2f, %0.2f)", location.x, location.y);
-        [self selectTabForPoint:location];
-        
+        [self selectTabForIndex:index];
         
         // Draw tap-circle:
         CGFloat x = fmod(location.x, [[self.tabRects objectAtIndex:self.selectedTabIndex] CGRectValue].size.width);
@@ -322,36 +345,26 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 #pragma mark -
 
 
-- (void)selectTabForPoint:(CGPoint)point
+- (void)selectTabForIndex:(NSInteger)index
 {
-    for (int i = 0; i < self.invisibleTappableTabRects.count; i++) {
-        CGRect rect = [[self.invisibleTappableTabRects objectAtIndex:i] CGRectValue];
-        if (CGRectContainsPoint(rect, point)) {
-            // We got a hit! Now determine if its a 'More' tab or a regular tab:
-            // Assuming (I hate to do this...) that the 'More' tab is the last one:
-            
-            if (i == self.invisibleTappableTabRects.count -1
-                &&
-                self.tabBar.items.count < self.customizableViewControllers.count) {
-                self.selectedTabIndex = i;
-                self.currentTabRect = [[self.tabRects objectAtIndex:i] CGRectValue];
-                // Since we have more tabs than are visible, I will again assume (I can feel the code breaking down around me...) that it is a 'More' tab:
-                [self setSelectedViewController:self.moreNavigationController];
-                if (self.showUnderline) {
-                    [self setUnderlineForTabIndex:i animated:YES];
-                }
-                break;
-            }
-            else {
-                self.selectedTabIndex = i;
-                self.currentTabRect = [[self.tabRects objectAtIndex:i] CGRectValue];;
-                // Just select this last tab:
-                [self setSelectedIndex:i];
-                if (self.showUnderline) {
-                    [self setUnderlineForTabIndex:i animated:YES];
-                }
-                break;
-            }
+    if (index == self.invisibleTappableTabRects.count -1
+        &&
+        self.tabBar.items.count < self.customizableViewControllers.count) {
+        self.selectedTabIndex = index;
+        self.currentTabRect = [[self.tabRects objectAtIndex:index] CGRectValue];
+        // Since we have more tabs than are visible, I will again assume (I can feel the code breaking down around me...) that it is a 'More' tab:
+        [self setSelectedViewController:self.moreNavigationController];
+        if (self.showUnderline) {
+            [self setUnderlineForTabIndex:index animated:YES];
+        }
+    }
+    else {
+        self.selectedTabIndex = index;
+        self.currentTabRect = [[self.tabRects objectAtIndex:index] CGRectValue];;
+        // Just select this last tab:
+        [self setSelectedIndex:index];
+        if (self.showUnderline) {
+            [self setUnderlineForTabIndex:index animated:YES];
         }
     }
 }
