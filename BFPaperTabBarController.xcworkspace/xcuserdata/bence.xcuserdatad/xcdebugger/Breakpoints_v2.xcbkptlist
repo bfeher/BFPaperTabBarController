@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Classes/BFPaperTabBarController.m"
-            timestampString = "431484077.849312"
+            timestampString = "432263057.060072"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "328"
-            endingLineNumber = "328"
+            startingLineNumber = "341"
+            endingLineNumber = "341"
             landmarkName = "-selectTabForPoint:"
             landmarkType = "5">
          </BreakpointContent>

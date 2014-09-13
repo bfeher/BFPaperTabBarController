@@ -30,6 +30,6 @@
 
 #import "BFPaperTabBarController.h"
 
-@interface DemoTabBarController : BFPaperTabBarController
+@interface DemoTabBarController : BFPaperTabBarController <UITabBarControllerDelegate>
 
 @end

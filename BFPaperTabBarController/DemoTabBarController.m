@@ -81,6 +81,8 @@
 {
     self.tabBar.tintColor = [UIColor paperColorDeepPurpleA400]; // set the tab bar tint color to something cool.
     
+    self.delegate = self;   // Just to demo that delegate methods are being called.
+    
     /*
      * Uncomment the lines below to see how you can customize this control:
      */
@@ -101,6 +103,34 @@
 //    self.underlineThickness = 14.f;    // Set this to adjust the thickness (height) of the underline bar. Not that any value greater than 1 could cover up parts of the TabBarItem's title.
     
 //    self.showTapCircleAndBackgroundFade = NO; // YES = show the tap-circles and add a color fade the background. NO = do not show the tap-circles and background fade.
+}
+
+
+#pragma UITabBarController Delegate
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+{
+    NSLog(@"UITabBarDelegate: shouldSelectViewController...");
+    return YES;
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    NSLog(@"UITabBarDelegate: didSelectViewController...");
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController willBeginCustomizingViewControllers:(NSArray *)viewControllers
+{
+    NSLog(@"UITabBarDelegate: willBeginCustomizingViewControllers...");
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController willEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed
+{
+    NSLog(@"UITabBarDelegate: willEndCustomizingViewControllers...");
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed
+{
+    NSLog(@"UITabBarDelegate: didEndCustomizingViewControllers...");
 }
 
 @end

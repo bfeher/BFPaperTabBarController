@@ -22,6 +22,7 @@
 		F497CCA319A32F36002B3127 /* BFPaperTabBarControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F497CCA219A32F36002B3127 /* BFPaperTabBarControllerTests.m */; };
 		F497CCAE19A32FAA002B3127 /* BFPaperTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F497CCAD19A32FAA002B3127 /* BFPaperTabBarController.m */; };
 		F497CCAF19A32FAA002B3127 /* BFPaperTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F497CCAD19A32FAA002B3127 /* BFPaperTabBarController.m */; };
+		F4BFBD3519C3D0D900BE0E02 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4BFBD3419C3D0D900BE0E02 /* TestViewController.m */; };
 		F4F2CAB219A5BE1900385596 /* DemoTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F2CAB119A5BE1900385596 /* DemoTabBarController.m */; };
 		FF46ADAE0D004EC69B4724DD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A09EF99FADC41758EDFBA95 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -58,6 +59,8 @@
 		F497CCA219A32F36002B3127 /* BFPaperTabBarControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BFPaperTabBarControllerTests.m; sourceTree = "<group>"; };
 		F497CCAC19A32FAA002B3127 /* BFPaperTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BFPaperTabBarController.h; path = Classes/BFPaperTabBarController.h; sourceTree = SOURCE_ROOT; };
 		F497CCAD19A32FAA002B3127 /* BFPaperTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BFPaperTabBarController.m; path = Classes/BFPaperTabBarController.m; sourceTree = SOURCE_ROOT; };
+		F4BFBD3319C3D0D900BE0E02 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		F4BFBD3419C3D0D900BE0E02 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		F4F2CAB019A5BE1900385596 /* DemoTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoTabBarController.h; sourceTree = "<group>"; };
 		F4F2CAB119A5BE1900385596 /* DemoTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoTabBarController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,6 +125,8 @@
 		F497CC7D19A32F35002B3127 /* BFPaperTabBarController */ = {
 			isa = PBXGroup;
 			children = (
+				F4BFBD3319C3D0D900BE0E02 /* TestViewController.h */,
+				F4BFBD3419C3D0D900BE0E02 /* TestViewController.m */,
 				F497CCB019A32FB1002B3127 /* Classes */,
 				F497CC8919A32F35002B3127 /* Main.storyboard */,
 				F4F2CAB019A5BE1900385596 /* DemoTabBarController.h */,
@@ -309,6 +314,7 @@
 				F497CC8419A32F35002B3127 /* main.m in Sources */,
 				F4F2CAB219A5BE1900385596 /* DemoTabBarController.m in Sources */,
 				F497CC8819A32F35002B3127 /* BFPaperAppDelegate.m in Sources */,
+				F4BFBD3519C3D0D900BE0E02 /* TestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
