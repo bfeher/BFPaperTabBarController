@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--View Controller - Tab 1-->
+        <!--Test View Controller - Tab 1-->
         <scene sceneID="mAE-e7-96w">
             <objects>
-                <viewController id="sHF-UO-XZy" sceneMemberID="viewController">
+                <viewController id="sHF-UO-XZy" customClass="TestViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0Gg-Jd-NKv"/>
                         <viewControllerLayoutGuide type="bottom" id="CTO-06-j0f"/>
@@ -63,10 +63,10 @@
             </objects>
             <point key="canvasLocation" x="-1650" y="-112"/>
         </scene>
-        <!--View Controller - Tab 4-->
+        <!--Test View Controller - Tab 4-->
         <scene sceneID="YtY-Q1-hQ4">
             <objects>
-                <viewController id="jLD-c4-8lt" sceneMemberID="viewController">
+                <viewController id="jLD-c4-8lt" customClass="TestViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b8v-Nn-LXD"/>
                         <viewControllerLayoutGuide type="bottom" id="6Z7-Qx-QV1"/>
@@ -99,10 +99,10 @@
             </objects>
             <point key="canvasLocation" x="-1248" y="518"/>
         </scene>
-        <!--View Controller - Tab 2-->
+        <!--Test View Controller - Tab 2-->
         <scene sceneID="tde-ee-Rw6">
             <objects>
-                <viewController id="QLV-23-IXI" sceneMemberID="viewController">
+                <viewController id="QLV-23-IXI" customClass="TestViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kEF-2q-Tce"/>
                         <viewControllerLayoutGuide type="bottom" id="UR3-ue-Sij"/>
@@ -135,10 +135,10 @@
             </objects>
             <point key="canvasLocation" x="-836" y="-742"/>
         </scene>
-        <!--View Controller - Tab 3-->
+        <!--Test View Controller - Tab 3-->
         <scene sceneID="IG6-1X-NAA">
             <objects>
-                <viewController id="rZ2-uf-WOL" sceneMemberID="viewController">
+                <viewController id="rZ2-uf-WOL" customClass="TestViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LeM-xt-7VN"/>
                         <viewControllerLayoutGuide type="bottom" id="vnB-v4-VF5"/>
@@ -171,11 +171,10 @@
             </objects>
             <point key="canvasLocation" x="-426" y="-742"/>
         </scene>
-        <!--View Controller-->
+        <!--Test View Controller-->
         <scene sceneID="oQn-m5-kB0">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mAD-oH-mGG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="QyL-Kj-gys" sceneMemberID="viewController">
+                <viewController id="QyL-Kj-gys" customClass="TestViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2ik-yE-7Ha"/>
                         <viewControllerLayoutGuide type="bottom" id="ruY-j6-c4a"/>
@@ -204,14 +203,14 @@
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="ngM-Ta-lea"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mAD-oH-mGG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-836" y="518"/>
         </scene>
-        <!--View Controller-->
+        <!--Test View Controller-->
         <scene sceneID="Jl8-dW-bYr">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HaX-Zn-UMA" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="bzb-rH-Fu9" sceneMemberID="viewController">
+                <viewController id="bzb-rH-Fu9" customClass="TestViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NNt-7D-Pc1"/>
                         <viewControllerLayoutGuide type="bottom" id="MQ2-5W-8Go"/>
@@ -240,6 +239,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="search" id="iu1-Pt-SmT"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HaX-Zn-UMA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-426" y="518"/>
         </scene>

@@ -284,6 +284,19 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
         
         CGPoint location = [longPress locationInView:longPress.view];
         //NSLog(@"pressed at location (%0.2f, %0.2f)", location.x, location.y);
+        
+        
+        for (int i = 0; i < self.invisibleTappableTabRects.count; i++) {
+            CGRect rect = [[self.invisibleTappableTabRects objectAtIndex:i] CGRectValue];
+            if (CGRectContainsPoint(rect, location)) {
+//                [self.delegate tabBarController:self shouldSelectViewController:[self.viewControllers objectAtIndex:i]];
+                if (![self.delegate tabBarController:self shouldSelectViewController:[self.viewControllers objectAtIndex:i]]) {
+                    return;
+                }
+                break;
+            }
+        }
+        
         [self selectTabForPoint:location];
         
         
@@ -330,6 +343,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
             // We got a hit! Now determine if its a 'More' tab or a regular tab:
             // Assuming (I hate to do this...) that the 'More' tab is the last one:
             
+            
             if (i == self.invisibleTappableTabRects.count -1
                 &&
                 self.tabBar.items.count < self.customizableViewControllers.count) {
@@ -337,6 +351,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
                 self.currentTabRect = [[self.tabRects objectAtIndex:i] CGRectValue];
                 // Since we have more tabs than are visible, I will again assume (I can feel the code breaking down around me...) that it is a 'More' tab:
                 [self setSelectedViewController:self.moreNavigationController];
+                [self.delegate tabBarController:self didSelectViewController:[self.viewControllers objectAtIndex:i]];
                 if (self.showUnderline) {
                     [self setUnderlineForTabIndex:i animated:YES];
                 }
@@ -347,6 +362,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
                 self.currentTabRect = [[self.tabRects objectAtIndex:i] CGRectValue];;
                 // Just select this last tab:
                 [self setSelectedIndex:i];
+                [self.delegate tabBarController:self didSelectViewController:[self.viewControllers objectAtIndex:i]];
                 if (self.showUnderline) {
                     [self setUnderlineForTabIndex:i animated:YES];
                 }
