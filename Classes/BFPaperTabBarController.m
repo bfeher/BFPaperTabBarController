@@ -289,11 +289,9 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
         for (int i = 0; i < self.invisibleTappableTabRects.count; i++) {
             CGRect rect = [[self.invisibleTappableTabRects objectAtIndex:i] CGRectValue];
             if (CGRectContainsPoint(rect, location)) {
-//                [self.delegate tabBarController:self shouldSelectViewController:[self.viewControllers objectAtIndex:i]];
-                if (![self.delegate tabBarController:self shouldSelectViewController:[self.viewControllers objectAtIndex:i]]) {
-                    return;
+                if([[self delegate] respondsToSelector:@selector(tabBarController:shouldSelectViewController:)]) {
+                    [self.delegate tabBarController:self shouldSelectViewController:[self.viewControllers objectAtIndex:i]];
                 }
-                break;
             }
         }
         
@@ -351,7 +349,9 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
                 self.currentTabRect = [[self.tabRects objectAtIndex:i] CGRectValue];
                 // Since we have more tabs than are visible, I will again assume (I can feel the code breaking down around me...) that it is a 'More' tab:
                 [self setSelectedViewController:self.moreNavigationController];
-                [self.delegate tabBarController:self didSelectViewController:[self.viewControllers objectAtIndex:i]];
+                if([[self delegate] respondsToSelector:@selector(tabBarController:didSelectViewController:)]) {
+                    [self.delegate tabBarController:self didSelectViewController:[self.viewControllers objectAtIndex:i]];
+                }
                 if (self.showUnderline) {
                     [self setUnderlineForTabIndex:i animated:YES];
                 }
@@ -362,7 +362,9 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
                 self.currentTabRect = [[self.tabRects objectAtIndex:i] CGRectValue];;
                 // Just select this last tab:
                 [self setSelectedIndex:i];
-                [self.delegate tabBarController:self didSelectViewController:[self.viewControllers objectAtIndex:i]];
+                if([[self delegate] respondsToSelector:@selector(tabBarController:didSelectViewController:)]) {
+                    [self.delegate tabBarController:self didSelectViewController:[self.viewControllers objectAtIndex:i]];
+                }
                 if (self.showUnderline) {
                     [self setUnderlineForTabIndex:i animated:YES];
                 }
