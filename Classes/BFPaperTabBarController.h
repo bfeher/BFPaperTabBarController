@@ -35,7 +35,7 @@
 static CGFloat const bfPaperTabBarController_tapCircleDiameterMedium = 200.f;
 static CGFloat const bfPaperTabBarController_tapCircleDiameterSmall = bfPaperTabBarController_tapCircleDiameterMedium / 2.f;
 static CGFloat const bfPaperTabBarController_tapCircleDiameterLarge = bfPaperTabBarController_tapCircleDiameterMedium * 1.8f;
-static CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -1.f;
+extern CGFloat const bfPaperTabBarController_tapCircleDiameterDefault;
 
 
 @interface BFPaperTabBarController : UITabBarController

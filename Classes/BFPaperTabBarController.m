@@ -46,6 +46,7 @@
 @end
 
 @implementation BFPaperTabBarController
+CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -1.f;
 // Constants used for tweaking the look/feel of:
 // -animation durations:
 static CGFloat const bfPaperTabBarController_animationDurationConstant       = 0.2f;
