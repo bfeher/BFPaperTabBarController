@@ -55,13 +55,13 @@ Selects and highlights a tab.<br />
 
 To Do
 ---------
-Support tabBars with non-equally distributed tab widths.
+Support tabBars with non-equally distributed tab widths.<br />
 Support programmatic instantiation.
 
 
 Usage
 ---------
-_BFPaperTabBarController_ is only supported in the Interface Builder.<br />
+**_BFPaperTabBarController_ is only supported in the Interface Builder.**<br />
 Add the _BFPaperTabBarController_ header and implementation file to your project. (.h & .m)
 
 ### Subclass!
