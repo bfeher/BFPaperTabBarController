@@ -602,24 +602,25 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 {
     //NSLog(@"Fading away");
     
-    CALayer *tempAnimationLayer = [self.rippleAnimationQueue firstObject];
-    if (nil != tempAnimationLayer) {
-        [self.deathRowForCircleLayers addObject:tempAnimationLayer];
-    }
     if (self.rippleAnimationQueue.count > 0) {
+        CALayer *tempAnimationLayer = [self.rippleAnimationQueue firstObject];
+        if (nil != tempAnimationLayer) {
+            [self.deathRowForCircleLayers addObject:tempAnimationLayer];
+        }
+
         [self.rippleAnimationQueue removeObjectAtIndex:0];
+
+        CABasicAnimation *fadeOut = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        [fadeOut setValue:@"fadeCircleOut" forKey:@"id"];
+        fadeOut.delegate = self;
+        fadeOut.fromValue = [NSNumber numberWithFloat:tempAnimationLayer.opacity];
+        fadeOut.toValue = [NSNumber numberWithFloat:0.f];
+        fadeOut.duration = bfPaperTabBarController_fadeOut;
+        fadeOut.fillMode = kCAFillModeForwards;
+        fadeOut.removedOnCompletion = NO;
+        
+        [tempAnimationLayer addAnimation:fadeOut forKey:@"opacityAnimation"];
     }
-    
-    CABasicAnimation *fadeOut = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    [fadeOut setValue:@"fadeCircleOut" forKey:@"id"];
-    fadeOut.delegate = self;
-    fadeOut.fromValue = [NSNumber numberWithFloat:tempAnimationLayer.opacity];
-    fadeOut.toValue = [NSNumber numberWithFloat:0.f];
-    fadeOut.duration = bfPaperTabBarController_fadeOut;
-    fadeOut.fillMode = kCAFillModeForwards;
-    fadeOut.removedOnCompletion = NO;
-    
-    [tempAnimationLayer addAnimation:fadeOut forKey:@"opacityAnimation"];
 }
 #pragma mark -
 
