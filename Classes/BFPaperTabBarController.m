@@ -43,11 +43,9 @@
 @property (nonatomic) NSMutableArray *tabRects;
 @property (nonatomic) NSMutableArray *invisibleTappableTabRects;
 @property CGRect currentTabRect;
-@property UIView *viewOfFirstTab;   // Used for sizing tabs with KVO.
 @end
 
 @implementation BFPaperTabBarController
-static void *BFPaperTabBarViewControllerContext = &BFPaperTabBarViewControllerContext;  // Used for KVO context.
 CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -1.f;
 // Constants used for tweaking the look/feel of:
 // -animation durations:
@@ -102,18 +100,6 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 
 #pragma mark - View Controller Life Cycle
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 /*
 #pragma mark - Navigation
 
@@ -131,14 +117,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 {
     [super viewDidLayoutSubviews];
     
-    self.tabRects = [self calculateTabRects];
-    self.invisibleTappableTabRects = [self calculateInvisibleTabRects];
-    self.animationsView.frame = self.tabBar.bounds;
-    self.invisibleTouchView.frame = self.tabBar.frame;
-    
-    if (self.showUnderline) {
-        [self setUnderlineForTabIndex:self.selectedTabIndex animated:NO];
-    }
+    [self updateTabBarVisuals];
 }
 
 
@@ -336,6 +315,22 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 
 #pragma mark - Tab Utility Methods
+- (void)updateTabBarVisuals
+{
+    double delayInSeconds = 0.1;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        self.tabRects = [self calculateTabRects];
+        self.invisibleTappableTabRects = [self calculateInvisibleTabRects];
+        self.animationsView.frame = self.tabBar.bounds;
+        self.invisibleTouchView.frame = self.tabBar.frame;
+        
+        if (self.showUnderline) {
+            [self setUnderlineForTabIndex:self.selectedTabIndex animated:NO];
+        }
+    });
+}
+
 - (void)selectTabForPoint:(CGPoint)point
 {
     for (int i = 0; i < self.invisibleTappableTabRects.count; i++) {
@@ -391,13 +386,18 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 - (NSMutableArray *)calculateTabRects
 {
-    NSLog(@"calculating Tab Rects with tabBar.bounds.size.width = \'%0.2f\'", self.tabBar.bounds.size.width);
+    //NSLog(@"calculating Tab Rects with tabBar.bounds.size.width = \'%0.2f\'", self.tabBar.bounds.size.width);
     NSMutableArray *preSizeAdjustment = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
     for (int i = 0; i < self.tabBar.items.count; i++) {
         CGRect tabRect = [self frameForTabInTabBar:self.tabBar withIndex:i];
         [preSizeAdjustment addObject:[NSValue valueWithCGRect:tabRect]];
     }
-    
+    //NSLog(@"\n\nprinting calculated tab rects:");
+    //for (int i = 0; i < preSizeAdjustment.count; i++) {
+    //    CGRect frame = [[preSizeAdjustment objectAtIndex:i] CGRectValue];
+    //    NSLog(@"frame for tab %d: (%0.2f, %0.2f, %0.2f, %0.2f", i, frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+    //}
+
     NSMutableArray *postSizeAdjusted = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
     for (int i = 0; i < preSizeAdjustment.count; i++) {
         NSValue *tabValue = [preSizeAdjustment objectAtIndex:i];
@@ -419,8 +419,17 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
             
             frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, frame.size.width + leftSpace + rightSpace, frame.size.height);
         }
+        
+        frame = CGRectMake(frame.origin.x, frame.origin.y - 1, frame.size.width, frame.size.height + 1);    // This adjusts for the 1 point of space above and below each tab. We don't want it so we make our frame swallow it up.
         [postSizeAdjusted addObject:[NSValue valueWithCGRect:frame]];
     }
+    
+    //NSLog(@"\n\nprinting calculated tab rects:");
+    //for (int i = 0; i < postSizeAdjusted.count; i++) {
+    //    CGRect frame = [[postSizeAdjusted objectAtIndex:i] CGRectValue];
+    //    NSLog(@"frame for tab %d: (%0.2f, %0.2f, %0.2f, %0.2f", i, frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+    //}
+    
     return postSizeAdjusted;
 
     // OLD
@@ -437,14 +446,19 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 - (NSMutableArray *)calculateInvisibleTabRects
 {
-    NSLog(@"calculating Invisible Tab Rects with tabBar.bounds.size.width = \'%0.2f\'", self.tabBar.bounds.size.width);
+    //NSLog(@"calculating Invisible Tab Rects with tabBar.bounds.size.width = \'%0.2f\'", self.tabBar.bounds.size.width);
     NSMutableArray *preSizeAdjustment = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
     for (int i = 0; i < self.tabBar.items.count; i++) {
         CGRect tabRect = [self frameForTabInTabBar:self.tabBar withIndex:i];
         //        CGRect adjustedRect = CGRectMake(tabRect.origin.x, -10, tabRect.size.width, tabRect.size.height + 10);
         [preSizeAdjustment addObject:[NSValue valueWithCGRect:tabRect]];
     }
-    
+    //NSLog(@"\n\nprinting calculated tab rects:");
+    //for (int i = 0; i < preSizeAdjustment.count; i++) {
+    //    CGRect frame = [[preSizeAdjustment objectAtIndex:i] CGRectValue];
+    //    NSLog(@"frame for tab %d: (%0.2f, %0.2f, %0.2f, %0.2f", i, frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+    //}
+
     NSMutableArray *postSizeAdjusted = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
     for (int i = 0; i < preSizeAdjustment.count; i++) {
         NSValue *tabValue = [preSizeAdjustment objectAtIndex:i];
@@ -466,8 +480,17 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
             
             frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, frame.size.width + leftSpace + rightSpace, frame.size.height);
         }
+        
+        frame = CGRectMake(frame.origin.x, frame.origin.y - 1, frame.size.width, frame.size.height + 1);    // This adjusts for the 1 point of space above and below each tab. We don't want it so we make our frame swallow it up.
         [postSizeAdjusted addObject:[NSValue valueWithCGRect:frame]];
     }
+    
+    //NSLog(@"\n\nprinting calculated invisible tap rects:");
+    //for (int i = 0; i < postSizeAdjusted.count; i++) {
+    //    CGRect frame = [[postSizeAdjusted objectAtIndex:i] CGRectValue];
+    //    NSLog(@"frame for tab %d: (%0.2f, %0.2f, %0.2f, %0.2f", i, frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+    //}
+
     return postSizeAdjusted;
 
     // OLD
@@ -544,48 +567,21 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
             frame = tabView.frame;
         }
     }
+    
+//    UIView *tempTabCover = [[UIView alloc] initWithFrame:frame];
+//    tempTabCover.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.4];
+//    [self.tabBar addSubview:tempTabCover];
     return frame;
 }
 
 
-#pragma mark - KVO
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
+#pragma mark - Tab Bar Delegate
+- (void)tabBar:(UITabBar *)tabBar didEndCustomizingItems:(NSArray *)items changed:(BOOL)changed
 {
-    if (context == BFPaperTabBarViewControllerContext) {
-        if ([keyPath isEqualToString:NSStringFromSelector(@selector(frame))]) {
-            for (int i = 0; i < self.tabBar.items.count; i++) {
-                CGRect frame = [self frameForTabInTabBar:self.tabBar withIndex:i];
-                NSLog(@"frame for tab %d: (%0.2f, %0.2f, %0.2f, %0.2f", i, frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
-            }
-        }
-    }
-}
-
-- (void)enrollTabViewToKVO:(UIView *)tabView
-{
-    // Remove old tab view from KVO:
-    [self removeTabViewFromKVO:self.viewOfFirstTab];
+    [super tabBar:tabBar didEndCustomizingItems:items changed:changed];
     
-    // Enroll new one into KVO:
-    self.viewOfFirstTab = tabView;
-    [self.viewOfFirstTab addObserver:self
-                          forKeyPath:NSStringFromSelector(@selector(frame))
-                             options:0
-                             context:BFPaperTabBarViewControllerContext];
-}
-
-- (void)removeTabViewFromKVO:(UIView *)tabView
-{
-    if (nil != tabView) {
-        @try {
-            [tabView removeObserver:self forKeyPath:NSStringFromSelector(@selector(frame))];
-        }
-        @catch (NSException * __unused exception) {
-            NSLog(@"exception! %@", exception.description);
-        }
+    if (changed) {
+        [self updateTabBarVisuals];
     }
 }
 
