@@ -55,7 +55,6 @@ Selects and highlights a tab.<br />
 
 To Do
 ---------
-Support tabBars with non-equally distributed tab widths.<br />
 Support programmatic instantiation.
 
 
@@ -105,7 +104,7 @@ Learn more at http://cocoapods.org
 Add this to your podfile to add BFPaperTabBarController to your project.
 ```ruby
 platform :ios, '7.0'
-pod 'BFPaperTabBarController', '~> 1.3.3'
+pod 'BFPaperTabBarController', '~> 1.4.1'
 ```
 
 
