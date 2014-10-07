@@ -43,9 +43,11 @@
 @property (nonatomic) NSMutableArray *tabRects;
 @property (nonatomic) NSMutableArray *invisibleTappableTabRects;
 @property CGRect currentTabRect;
+@property UIView *viewOfFirstTab;   // Used for sizing tabs with KVO.
 @end
 
 @implementation BFPaperTabBarController
+static void *BFPaperTabBarViewControllerContext = &BFPaperTabBarViewControllerContext;  // Used for KVO context.
 CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -1.f;
 // Constants used for tweaking the look/feel of:
 // -animation durations:
@@ -267,16 +269,6 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 }
 
 
-#pragma mark - Utility Functions
-- (void)selectTabAtIndex:(NSInteger)index animated:(BOOL)animated
-{
-    [self setSelectedIndex:index];
-    self.selectedTabIndex = index;
-    [self setUnderlineForTabIndex:index animated:animated];
-    [self setBackgroundFadeLayerForTabAtIndex:index];
-}
- 
-
 #pragma mark - Gesture Recognizer Handlers
 - (void)handleLongPress:(UILongPressGestureRecognizer *)longPress
 {
@@ -331,9 +323,19 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 {
     return YES;
 }
-#pragma mark -
 
 
+#pragma mark - Public Utility Functions
+- (void)selectTabAtIndex:(NSInteger)index animated:(BOOL)animated
+{
+    [self setSelectedIndex:index];
+    self.selectedTabIndex = index;
+    [self setUnderlineForTabIndex:index animated:animated];
+    [self setBackgroundFadeLayerForTabAtIndex:index];
+}
+
+
+#pragma mark - Tab Utility Methods
 - (void)selectTabForPoint:(CGPoint)point
 {
     for (int i = 0; i < self.invisibleTappableTabRects.count; i++) {
@@ -389,28 +391,95 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 - (NSMutableArray *)calculateTabRects
 {
-    CGRect tabBarRect = self.tabBar.bounds;
-    NSInteger tabCount = self.tabBar.items.count;
-    CGFloat tabWidth = tabBarRect.size.width / tabCount;
-    NSMutableArray *returnArray = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
-    for (int i = 0; i < tabCount; i++) {
-        CGRect tabRect = CGRectMake(tabWidth * i, 0, tabWidth, tabBarRect.size.height);
-        [returnArray addObject:[NSValue valueWithCGRect:tabRect]];
+    NSLog(@"calculating Tab Rects with tabBar.bounds.size.width = \'%0.2f\'", self.tabBar.bounds.size.width);
+    NSMutableArray *preSizeAdjustment = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
+    for (int i = 0; i < self.tabBar.items.count; i++) {
+        CGRect tabRect = [self frameForTabInTabBar:self.tabBar withIndex:i];
+        [preSizeAdjustment addObject:[NSValue valueWithCGRect:tabRect]];
     }
-    return returnArray;
+    
+    NSMutableArray *postSizeAdjusted = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
+    for (int i = 0; i < preSizeAdjustment.count; i++) {
+        NSValue *tabValue = [preSizeAdjustment objectAtIndex:i];
+        CGRect frame = tabValue.CGRectValue;
+        if (i == 0) {
+            // First tab: extend from bar origin to midpoint between first and second tab.
+            CGFloat rightSpace = ([[preSizeAdjustment objectAtIndex:i + 1] CGRectValue].origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+            frame = CGRectMake(0, frame.origin.y, frame.size.width + frame.origin.x + rightSpace, frame.size.height);
+        }
+        else if (i == preSizeAdjustment.count - 1) {
+            // Last tab: extend from midpoint between previous tab and last tab to end of bar.
+            CGFloat leftSpace = (frame.origin.x - ([[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].origin.x + [[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].size.width)) / 2.f;
+            frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, self.tabBar.bounds.size.width - frame.origin.x + leftSpace, frame.size.height);
+        }
+        else {
+            // Mid tabs: extend from midpoint between previous tab and current tab to midpoint between current tab and next tab.
+            CGFloat leftSpace = (frame.origin.x - ([[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].origin.x + [[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].size.width)) / 2.f;
+            CGFloat rightSpace = ([[preSizeAdjustment objectAtIndex:i + 1] CGRectValue].origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+            
+            frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, frame.size.width + leftSpace + rightSpace, frame.size.height);
+        }
+        [postSizeAdjusted addObject:[NSValue valueWithCGRect:frame]];
+    }
+    return postSizeAdjusted;
+
+    // OLD
+//    CGRect tabBarRect = self.tabBar.bounds;
+//    NSInteger tabCount = self.tabBar.items.count;
+//    CGFloat tabWidth = tabBarRect.size.width / tabCount;
+//    NSMutableArray *returnArray = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
+//    for (int i = 0; i < tabCount; i++) {
+//        CGRect tabRect = CGRectMake(tabWidth * i, 0, tabWidth, tabBarRect.size.height);
+//        [returnArray addObject:[NSValue valueWithCGRect:tabRect]];
+//    }
+//    return returnArray;
 }
 
 - (NSMutableArray *)calculateInvisibleTabRects
 {
-    CGRect tabBarRect = self.tabBar.bounds;
-    NSInteger tabCount = self.tabBar.items.count;
-    CGFloat tabWidth = tabBarRect.size.width / tabCount;
-    NSMutableArray *returnArray = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
-    for (int i = 0; i < tabCount; i++) {
-        CGRect tabRect = CGRectMake(tabWidth * i, -10, tabWidth, tabBarRect.size.height + 10);
-        [returnArray addObject:[NSValue valueWithCGRect:tabRect]];
+    NSLog(@"calculating Invisible Tab Rects with tabBar.bounds.size.width = \'%0.2f\'", self.tabBar.bounds.size.width);
+    NSMutableArray *preSizeAdjustment = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
+    for (int i = 0; i < self.tabBar.items.count; i++) {
+        CGRect tabRect = [self frameForTabInTabBar:self.tabBar withIndex:i];
+        //        CGRect adjustedRect = CGRectMake(tabRect.origin.x, -10, tabRect.size.width, tabRect.size.height + 10);
+        [preSizeAdjustment addObject:[NSValue valueWithCGRect:tabRect]];
     }
-    return returnArray;
+    
+    NSMutableArray *postSizeAdjusted = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
+    for (int i = 0; i < preSizeAdjustment.count; i++) {
+        NSValue *tabValue = [preSizeAdjustment objectAtIndex:i];
+        CGRect frame = tabValue.CGRectValue;
+        if (i == 0) {
+            // First tab: extend from bar origin to midpoint between first and second tab.
+            CGFloat rightSpace = ([[preSizeAdjustment objectAtIndex:i + 1] CGRectValue].origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+            frame = CGRectMake(0, frame.origin.y, frame.size.width + frame.origin.x + rightSpace, frame.size.height);
+        }
+        else if (i == preSizeAdjustment.count - 1) {
+            // Last tab: extend from midpoint between previous tab and last tab to end of bar.
+            CGFloat leftSpace = (frame.origin.x - ([[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].origin.x + [[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].size.width)) / 2.f;
+            frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, self.tabBar.bounds.size.width - frame.origin.x + leftSpace, frame.size.height);
+        }
+        else {
+            // Mid tabs: extend from midpoint between previous tab and current tab to midpoint between current tab and next tab.
+            CGFloat leftSpace = (frame.origin.x - ([[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].origin.x + [[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].size.width)) / 2.f;
+            CGFloat rightSpace = ([[preSizeAdjustment objectAtIndex:i + 1] CGRectValue].origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+            
+            frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, frame.size.width + leftSpace + rightSpace, frame.size.height);
+        }
+        [postSizeAdjusted addObject:[NSValue valueWithCGRect:frame]];
+    }
+    return postSizeAdjusted;
+
+    // OLD
+//    CGRect tabBarRect = self.tabBar.bounds;
+//    NSInteger tabCount = self.tabBar.items.count;
+//    CGFloat tabWidth = tabBarRect.size.width / tabCount;
+//    NSMutableArray *returnArray = [NSMutableArray arrayWithCapacity:self.tabBar.items.count];
+//    for (int i = 0; i < tabCount; i++) {
+//        CGRect tabRect = CGRectMake(tabWidth * i, -10, tabWidth, tabBarRect.size.height + 10);
+//        [returnArray addObject:[NSValue valueWithCGRect:tabRect]];
+//    }
+//    return returnArray;
 }
 
 - (UIView *)viewForTabBarItemAtIndex:(NSInteger)index
@@ -429,6 +498,95 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 - (CGRect)normalizedRectForRect:(CGRect)rect
 {
     return CGRectMake(0, 0, rect.size.width, rect.size.height);
+}
+
+- (CGRect)frameForTabInTabBar:(UITabBar*)tabBar withIndex:(NSUInteger)index
+{
+    NSMutableArray *tabBarItems = [NSMutableArray arrayWithCapacity:[tabBar.items count]];
+    for (UIView *view in tabBar.subviews) {
+        //        if ([view isKindOfClass:NSClassFromString(@"UITabBarButton")] && [view respondsToSelector:@selector(frame)]) {
+        if ([view isKindOfClass:[UIControl class]]) {
+            // check for the selector -frame to prevent crashes in the very unlikely case that in the future
+            // objects thar don't implement -frame can be subViews of an UIView
+            [tabBarItems addObject:view];
+        }
+    }
+    if ([tabBarItems count] == 0) {
+        // no tabBarItems means either no UITabBarButtons were in the subView, or none responded to -frame
+        // return CGRectZero to indicate that we couldn't figure out the frame
+        return CGRectZero;
+    }
+    
+    // sort by origin.x of the frame because the items are not necessarily in the correct order
+    [tabBarItems sortUsingComparator:^NSComparisonResult(UIView *view1, UIView *view2) {
+        if (view1.frame.origin.x < view2.frame.origin.x) {
+            return NSOrderedAscending;
+        }
+        if (view1.frame.origin.x > view2.frame.origin.x) {
+            return NSOrderedDescending;
+        }
+        NSAssert(YES, @"%@ and %@ share the same origin.x. This should never happen and indicates a substantial change in the framework that renders this method useless.", view1, view2);  // Unless you are just reording tabs...
+        return NSOrderedSame;
+    }];
+    
+    CGRect frame = CGRectZero;
+    if (index < [tabBarItems count]) {
+        // viewController is in a regular tab
+        UIView *tabView = tabBarItems[index];
+        if ([tabView respondsToSelector:@selector(frame)]) {
+            frame = tabView.frame;
+        }
+    }
+    else {
+        // our target viewController is inside the "more" tab
+        UIView *tabView = [tabBarItems lastObject];
+        if ([tabView respondsToSelector:@selector(frame)]) {
+            frame = tabView.frame;
+        }
+    }
+    return frame;
+}
+
+
+#pragma mark - KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == BFPaperTabBarViewControllerContext) {
+        if ([keyPath isEqualToString:NSStringFromSelector(@selector(frame))]) {
+            for (int i = 0; i < self.tabBar.items.count; i++) {
+                CGRect frame = [self frameForTabInTabBar:self.tabBar withIndex:i];
+                NSLog(@"frame for tab %d: (%0.2f, %0.2f, %0.2f, %0.2f", i, frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+            }
+        }
+    }
+}
+
+- (void)enrollTabViewToKVO:(UIView *)tabView
+{
+    // Remove old tab view from KVO:
+    [self removeTabViewFromKVO:self.viewOfFirstTab];
+    
+    // Enroll new one into KVO:
+    self.viewOfFirstTab = tabView;
+    [self.viewOfFirstTab addObserver:self
+                          forKeyPath:NSStringFromSelector(@selector(frame))
+                             options:0
+                             context:BFPaperTabBarViewControllerContext];
+}
+
+- (void)removeTabViewFromKVO:(UIView *)tabView
+{
+    if (nil != tabView) {
+        @try {
+            [tabView removeObserver:self forKeyPath:NSStringFromSelector(@selector(frame))];
+        }
+        @catch (NSException * __unused exception) {
+            NSLog(@"exception! %@", exception.description);
+        }
+    }
 }
 
 
