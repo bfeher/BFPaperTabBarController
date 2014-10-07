@@ -239,7 +239,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
             CGFloat y = self.tabBar.bounds.size.height - self.underlineThickness;
             self.underlineLayer = [UIView new];
             self.underlineLayer.frame = CGRectMake(self.tabBar.bounds.origin.x, y, self.tabBar.bounds.size.width, self.underlineThickness);
-            NSLog(@"underline frame: (%0.2f, %0.2f, %0.2f, %0.2f)", self.underlineLayer.frame.origin.x, self.underlineLayer.frame.origin.y, self.underlineLayer.frame.size.width, self.underlineLayer.frame.size.height);
+            //NSLog(@"underline frame: (%0.2f, %0.2f, %0.2f, %0.2f)", self.underlineLayer.frame.origin.x, self.underlineLayer.frame.origin.y, self.underlineLayer.frame.size.width, self.underlineLayer.frame.size.height);
 
             [self.animationsView addSubview:self.underlineLayer];
             [self setUnderlineForTabIndex:self.selectedTabIndex animated:NO];
@@ -271,8 +271,16 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
         
         
         // Draw tap-circle:
-        CGFloat x = fmod(location.x, [[self.tabRects objectAtIndex:self.selectedTabIndex] CGRectValue].size.width);
-        self.tapPoint = CGPointMake(x, location.y);
+        //NSLog(@"PRE point: (%0.2f, %0.2f) [tab %d]", location.x, location.y, self.selectedTabIndex);
+        UIView *tempSizerView = [[UIView alloc] initWithFrame:[[self.tabRects objectAtIndex:self.selectedTabIndex] CGRectValue]];   // Throw this temp view in to get sizes calculated nicely, then remove it. I KNOW I KNOW!! Fix this and submit a pull request ;)
+        tempSizerView.backgroundColor = [UIColor clearColor];
+        [self.tabBar insertSubview:tempSizerView belowSubview:self.animationsView];
+        CGPoint newLocation = [self.view convertPoint:location toView:tempSizerView];
+        //NSLog(@"POST point: (%0.2f, %0.2f) [tab %d]", newLocation.x, newLocation.y, self.selectedTabIndex);
+        [tempSizerView removeFromSuperview];
+        tempSizerView = nil;
+
+        self.tapPoint = CGPointMake(newLocation.x, location.y);
         
         if (self.showTapCircleAndBackgroundFade) {
             [self growTapCircle];
@@ -505,9 +513,10 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 //    return returnArray;
 }
 
+/*
+// No longer being used. But not sure if I want to delete it yet.
 - (UIView *)viewForTabBarItemAtIndex:(NSInteger)index
 {
-    
     CGRect tabBarRect = self.tabBar.frame;
     NSInteger buttonCount = self.tabBar.items.count;
     CGFloat containingWidth = tabBarRect.size.width / buttonCount;
@@ -516,7 +525,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     CGPoint center = CGPointMake( CGRectGetMidX(containingRect), CGRectGetMidY(containingRect));
     
     return [self.tabBar hitTest:center withEvent:nil];
-}
+}*/
 
 - (CGRect)normalizedRectForRect:(CGRect)rect
 {
@@ -572,6 +581,52 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 //    tempTabCover.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.4];
 //    [self.tabBar addSubview:tempTabCover];
     return frame;
+}
+
+- (UIView *)viewForTabInTabBar:(UITabBar*)tabBar withIndex:(NSUInteger)index
+{
+    NSMutableArray *tabBarItems = [NSMutableArray arrayWithCapacity:[tabBar.items count]];
+    for (UIView *view in tabBar.subviews) {
+        //        if ([view isKindOfClass:NSClassFromString(@"UITabBarButton")] && [view respondsToSelector:@selector(frame)]) {
+        if ([view isKindOfClass:[UIControl class]]) {
+            // check for the selector -frame to prevent crashes in the very unlikely case that in the future
+            // objects thar don't implement -frame can be subViews of an UIView
+            [tabBarItems addObject:view];
+        }
+    }
+    if ([tabBarItems count] == 0) {
+        // no tabBarItems means either no UITabBarButtons were in the subView, or none responded to -frame
+        // return CGRectZero to indicate that we couldn't figure out the frame
+        return nil;
+    }
+    
+    // sort by origin.x of the frame because the items are not necessarily in the correct order
+    [tabBarItems sortUsingComparator:^NSComparisonResult(UIView *view1, UIView *view2) {
+        if (view1.frame.origin.x < view2.frame.origin.x) {
+            return NSOrderedAscending;
+        }
+        if (view1.frame.origin.x > view2.frame.origin.x) {
+            return NSOrderedDescending;
+        }
+        NSAssert(YES, @"%@ and %@ share the same origin.x. This should never happen and indicates a substantial change in the framework that renders this method useless.", view1, view2);  // Unless you are just reording tabs...
+        return NSOrderedSame;
+    }];
+    
+    if (index < [tabBarItems count]) {
+        // viewController is in a regular tab
+        UIView *tabView = tabBarItems[index];
+        if ([tabView respondsToSelector:@selector(frame)]) {
+            return tabView;
+        }
+    }
+    else {
+        // our target viewController is inside the "more" tab
+        UIView *tabView = [tabBarItems lastObject];
+        if ([tabView respondsToSelector:@selector(frame)]) {
+            return tabView;
+        }
+    }
+    return nil;
 }
 
 
@@ -635,7 +690,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     
     [self.backgroundColorFadeLayer addAnimation:fadeBackgroundDarker forKey:@"animateOpacity"];
     
-    UIView *tab = [self viewForTabBarItemAtIndex:self.selectedTabIndex];
+    UIView *tab = [self viewForTabInTabBar:self.tabBar withIndex:self.selectedTabIndex];
 
     CALayer *tapCircleLayer = [CALayer new];
     tapCircleLayer.frame = self.currentTabRect;
