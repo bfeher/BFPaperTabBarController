@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="WAA-bm-W3d">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="WAA-bm-W3d">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
-        <!--Test View Controller - Tab 1-->
+        <!--Tab 1-->
         <scene sceneID="mAE-e7-96w">
             <objects>
                 <viewController id="sHF-UO-XZy" customClass="TestViewController" sceneMemberID="viewController">
@@ -18,7 +18,6 @@
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iVK-lT-XqO">
                                 <rect key="frame" x="76" y="207" width="168" height="154"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="168" id="gL2-G5-ho0"/>
                                     <constraint firstAttribute="height" constant="154" id="yZK-XO-vaM"/>
@@ -63,7 +62,7 @@
             </objects>
             <point key="canvasLocation" x="-1650" y="-112"/>
         </scene>
-        <!--Test View Controller - Tab 4-->
+        <!--Tab 4-->
         <scene sceneID="YtY-Q1-hQ4">
             <objects>
                 <viewController id="jLD-c4-8lt" customClass="TestViewController" sceneMemberID="viewController">
@@ -77,7 +76,6 @@
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qMV-eF-Vmo">
                                 <rect key="frame" x="76" y="207" width="168" height="154"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="168" id="R8O-iV-FYW"/>
                                     <constraint firstAttribute="height" constant="154" id="aOG-Gw-kFW"/>
@@ -99,7 +97,7 @@
             </objects>
             <point key="canvasLocation" x="-1248" y="518"/>
         </scene>
-        <!--Test View Controller - Tab 2-->
+        <!--Tab 2-->
         <scene sceneID="tde-ee-Rw6">
             <objects>
                 <viewController id="QLV-23-IXI" customClass="TestViewController" sceneMemberID="viewController">
@@ -113,7 +111,6 @@
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UJB-zI-iB8">
                                 <rect key="frame" x="76" y="207" width="168" height="154"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="154" id="Quh-Tn-7c5"/>
                                     <constraint firstAttribute="width" constant="168" id="S1w-mS-6PA"/>
@@ -135,7 +132,7 @@
             </objects>
             <point key="canvasLocation" x="-836" y="-742"/>
         </scene>
-        <!--Test View Controller - Tab 3-->
+        <!--Tab 3-->
         <scene sceneID="IG6-1X-NAA">
             <objects>
                 <viewController id="rZ2-uf-WOL" customClass="TestViewController" sceneMemberID="viewController">
@@ -149,7 +146,6 @@
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWG-Ki-kIH">
                                 <rect key="frame" x="76" y="207" width="168" height="154"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="154" id="JS2-RE-quF"/>
                                     <constraint firstAttribute="width" constant="168" id="m3F-Gw-Gc0"/>
@@ -185,7 +181,6 @@
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbc-gy-9i6">
                                 <rect key="frame" x="76" y="207" width="168" height="154"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="168" id="Ipg-LT-33N"/>
                                     <constraint firstAttribute="height" constant="154" id="Nkr-4O-Xf0"/>
@@ -221,7 +216,6 @@
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8cq-Tz-rGR">
                                 <rect key="frame" x="76" y="207" width="168" height="154"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="168" id="ZRQ-IS-sVe"/>
                                     <constraint firstAttribute="height" constant="154" id="tWP-tA-0uL"/>

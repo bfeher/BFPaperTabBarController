@@ -25,7 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
+	<string>iPhone</string>
+	<key>UIMainStoryboardFile~ipad</key>
+	<string>iPad</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -35,6 +37,13 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 </dict>
 </plist>

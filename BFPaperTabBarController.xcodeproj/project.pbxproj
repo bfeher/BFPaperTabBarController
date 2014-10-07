@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F46F2D1019E3A24F00226ADC /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F46F2D0F19E3A24F00226ADC /* iPad.storyboard */; };
+		F46F2D1119E3A24F00226ADC /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F46F2D0F19E3A24F00226ADC /* iPad.storyboard */; };
 		F497CC7819A32F35002B3127 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC7719A32F35002B3127 /* Foundation.framework */; };
 		F497CC7A19A32F35002B3127 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC7919A32F35002B3127 /* CoreGraphics.framework */; };
 		F497CC7C19A32F35002B3127 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC7B19A32F35002B3127 /* UIKit.framework */; };
 		F497CC8219A32F35002B3127 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F497CC8019A32F35002B3127 /* InfoPlist.strings */; };
 		F497CC8419A32F35002B3127 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F497CC8319A32F35002B3127 /* main.m */; };
 		F497CC8819A32F35002B3127 /* BFPaperAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F497CC8719A32F35002B3127 /* BFPaperAppDelegate.m */; };
-		F497CC8B19A32F35002B3127 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F497CC8919A32F35002B3127 /* Main.storyboard */; };
+		F497CC8B19A32F35002B3127 /* iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F497CC8919A32F35002B3127 /* iPhone.storyboard */; };
 		F497CC9019A32F35002B3127 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F497CC8F19A32F35002B3127 /* Images.xcassets */; };
 		F497CC9719A32F36002B3127 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC9619A32F36002B3127 /* XCTest.framework */; };
 		F497CC9819A32F36002B3127 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC7719A32F35002B3127 /* Foundation.framework */; };
@@ -40,6 +42,7 @@
 /* Begin PBXFileReference section */
 		4A09EF99FADC41758EDFBA95 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		74003932538242618BBC2CED /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		F46F2D0F19E3A24F00226ADC /* iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
 		F497CC7419A32F35002B3127 /* BFPaperTabBarController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BFPaperTabBarController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F497CC7719A32F35002B3127 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F497CC7919A32F35002B3127 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -50,7 +53,7 @@
 		F497CC8519A32F35002B3127 /* BFPaperTabBarController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BFPaperTabBarController-Prefix.pch"; sourceTree = "<group>"; };
 		F497CC8619A32F35002B3127 /* BFPaperAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BFPaperAppDelegate.h; sourceTree = "<group>"; };
 		F497CC8719A32F35002B3127 /* BFPaperAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BFPaperAppDelegate.m; sourceTree = "<group>"; };
-		F497CC8A19A32F35002B3127 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F497CC8A19A32F35002B3127 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/iPhone.storyboard; sourceTree = "<group>"; };
 		F497CC8F19A32F35002B3127 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F497CC9519A32F35002B3127 /* BFPaperTabBarControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BFPaperTabBarControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F497CC9619A32F36002B3127 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -125,10 +128,11 @@
 		F497CC7D19A32F35002B3127 /* BFPaperTabBarController */ = {
 			isa = PBXGroup;
 			children = (
+				F46F2D0F19E3A24F00226ADC /* iPad.storyboard */,
+				F497CC8919A32F35002B3127 /* iPhone.storyboard */,
 				F4BFBD3319C3D0D900BE0E02 /* TestViewController.h */,
 				F4BFBD3419C3D0D900BE0E02 /* TestViewController.m */,
 				F497CCB019A32FB1002B3127 /* Classes */,
-				F497CC8919A32F35002B3127 /* Main.storyboard */,
 				F4F2CAB019A5BE1900385596 /* DemoTabBarController.h */,
 				F4F2CAB119A5BE1900385596 /* DemoTabBarController.m */,
 				F497CC7E19A32F35002B3127 /* Supporting Files */,
@@ -256,9 +260,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F46F2D1019E3A24F00226ADC /* iPad.storyboard in Resources */,
 				F497CC9019A32F35002B3127 /* Images.xcassets in Resources */,
 				F497CC8219A32F35002B3127 /* InfoPlist.strings in Resources */,
-				F497CC8B19A32F35002B3127 /* Main.storyboard in Resources */,
+				F497CC8B19A32F35002B3127 /* iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +271,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F46F2D1119E3A24F00226ADC /* iPad.storyboard in Resources */,
 				F497CCA119A32F36002B3127 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,12 +352,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		F497CC8919A32F35002B3127 /* Main.storyboard */ = {
+		F497CC8919A32F35002B3127 /* iPhone.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				F497CC8A19A32F35002B3127 /* Base */,
 			);
-			name = Main.storyboard;
+			name = iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 		F497CC9F19A32F36002B3127 /* InfoPlist.strings */ = {
@@ -446,6 +452,7 @@
 				INFOPLIST_FILE = "BFPaperTabBarController/BFPaperTabBarController-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -461,6 +468,7 @@
 				INFOPLIST_FILE = "BFPaperTabBarController/BFPaperTabBarController-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
