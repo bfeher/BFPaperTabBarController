@@ -46,6 +46,8 @@
 @end
 
 @implementation BFPaperTabBarController
+static void *BFPaperTabBarControllerContext = &BFPaperTabBarControllerContext;
+static NSString *BFPaperTabBarControllerKVOKeyPath_hidden = @"hidden";
 CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -1.f;
 // Constants used for tweaking the look/feel of:
 // -animation durations:
@@ -100,6 +102,18 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 
 #pragma mark - View Controller Life Cycle
+- (void)viewWillDisappear:(BOOL)animated
+{
+    // Try to remove ourselves from the KVO system:
+    @try {
+        [self.tabBar removeObserver:self forKeyPath:BFPaperTabBarControllerKVOKeyPath_hidden];
+    }
+    @catch (NSException * __unused exception) {
+        NSLog(@"Exception \'%@\' caught!\nReason: \'%@\'", exception.name, exception.reason);
+    }
+    
+    [super viewWillDisappear:animated];
+}
 /*
 #pragma mark - Navigation
 
@@ -118,6 +132,17 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     [super viewDidLayoutSubviews];
     
     [self updateTabBarVisuals];
+    
+    // Account for hidden tabBar:
+    if (self.tabBar.isHidden) {
+        //NSLog(@"hiding tap area");
+        self.invisibleTouchView.hidden = YES;
+    }
+    else {
+        //NSLog(@"showing tap area");
+        self.invisibleTouchView.hidden = NO;
+        [self.view bringSubviewToFront:self.invisibleTouchView];
+    }
 }
 
 
@@ -130,13 +155,13 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     // Initializations that depend on above defaults:
     
     // Set up the view which will hold all the animations:
-    self.animationsView = [[UIView alloc] init];
+    self.animationsView = [[UIView alloc] initWithFrame:self.tabBar.bounds];
     self.animationsView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.animationsView.backgroundColor = [UIColor clearColor];
     [self.tabBar insertSubview:self.animationsView atIndex:0];
     
     // Set up the invisible layer to capture taps:
-    self.invisibleTouchView = [[UIView alloc] init];
+    self.invisibleTouchView = [[UIView alloc] initWithFrame:self.tabBar.frame];
     self.invisibleTouchView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.invisibleTouchView.backgroundColor = [UIColor clearColor];
     self.invisibleTouchView.userInteractionEnabled = YES;
@@ -151,6 +176,9 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     press.minimumPressDuration = 0;
     [self.invisibleTouchView addGestureRecognizer:press];
     press = nil;
+
+    // Set up tab bar for KVO on its 'hidden' key:
+    [self.tabBar addObserver:self forKeyPath:BFPaperTabBarControllerKVOKeyPath_hidden options:0 context:BFPaperTabBarControllerContext];
     
     
     // More Defaults:
@@ -180,33 +208,6 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     self.backgroundColorFadeLayer.frame = endRect;
     self.backgroundColorFadeLayer.backgroundColor = [UIColor clearColor].CGColor;
     [self.animationsView.layer insertSublayer:self.backgroundColorFadeLayer atIndex:0];
-}
-
-- (void)setUnderlineForTabIndex:(NSInteger)index animated:(BOOL)animated    // animated affects nothing. What's going on?
-{
-    //NSLog(@"setting underline to index: %d", index);
-    
-    CGRect tabRect = [[self.tabRects objectAtIndex:index] CGRectValue];
-    
-    UIColor *bgColor = self.underlineColor;
-    if (!bgColor) {
-        bgColor = self.usesSmartColor ? self.tabBar.tintColor : BFPAPERTABBARCONTROLLER__DUMB_UNDERLINE_COLOR;
-    }
-    self.underlineLayer.backgroundColor = bgColor;
-    CGFloat x = tabRect.origin.x;
-    CGFloat y = tabRect.size.height - self.underlineThickness;
-    CGFloat w = tabRect.size.width;
-    
-    if (animated) {
-        CGFloat duration = bfPaperTabBarController_animationDurationConstant;
-        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.underlineLayer.frame = CGRectMake(x, y, w, self.underlineThickness);
-        } completion:^(BOOL finished) {
-        }];
-    }
-    else {
-        self.underlineLayer.frame = CGRectMake(x, y, w, self.underlineThickness);
-    }
 }
 
 
@@ -243,6 +244,28 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
             [self.animationsView addSubview:self.underlineLayer];
             [self setUnderlineForTabIndex:self.selectedTabIndex animated:NO];
+        }
+    }
+}
+
+
+#pragma mark - KVO Handling
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == BFPaperTabBarControllerContext) {
+        if ([keyPath isEqualToString:BFPaperTabBarControllerKVOKeyPath_hidden]) {
+            //NSLog(@"\n\n\nKVO: tabBar is %@\n\n\n", self.tabBar.isHidden ? @"HIDDEN" : @"VISIBLE");
+            if (self.tabBar.isHidden) {
+                //NSLog(@"hiding tap area");
+                self.invisibleTouchView.hidden = YES;
+            }
+            else {
+                //NSLog(@"showing tap area");
+                self.invisibleTouchView.hidden = NO;
+                [self.view bringSubviewToFront:self.invisibleTouchView];
+                [self.view setNeedsLayout];
+                [self.view layoutIfNeeded];
+            }
         }
     }
 }
@@ -323,6 +346,33 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 
 #pragma mark - Tab Utility Methods
+- (void)setUnderlineForTabIndex:(NSInteger)index animated:(BOOL)animated    // animated affects nothing. What's going on?
+{
+    //NSLog(@"setting underline to index: %d", index);
+    
+    CGRect tabRect = [[self.tabRects objectAtIndex:index] CGRectValue];
+    
+    UIColor *bgColor = self.underlineColor;
+    if (!bgColor) {
+        bgColor = self.usesSmartColor ? self.tabBar.tintColor : BFPAPERTABBARCONTROLLER__DUMB_UNDERLINE_COLOR;
+    }
+    self.underlineLayer.backgroundColor = bgColor;
+    CGFloat x = tabRect.origin.x;
+    CGFloat y = tabRect.size.height - self.underlineThickness;
+    CGFloat w = tabRect.size.width;
+    
+    if (animated) {
+        CGFloat duration = bfPaperTabBarController_animationDurationConstant;
+        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.underlineLayer.frame = CGRectMake(x, y, w, self.underlineThickness);
+        } completion:^(BOOL finished) {
+        }];
+    }
+    else {
+        self.underlineLayer.frame = CGRectMake(x, y, w, self.underlineThickness);
+    }
+}
+
 - (void)updateTabBarVisuals
 {
     double delayInSeconds = 0.1;

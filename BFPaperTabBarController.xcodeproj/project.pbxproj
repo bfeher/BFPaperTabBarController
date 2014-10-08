@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F443AA6219E504BF00296483 /* PushTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F443AA6119E504BF00296483 /* PushTestViewController.m */; };
 		F46F2D1019E3A24F00226ADC /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F46F2D0F19E3A24F00226ADC /* iPad.storyboard */; };
 		F46F2D1119E3A24F00226ADC /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F46F2D0F19E3A24F00226ADC /* iPad.storyboard */; };
 		F497CC7819A32F35002B3127 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC7719A32F35002B3127 /* Foundation.framework */; };
@@ -42,6 +43,8 @@
 /* Begin PBXFileReference section */
 		4A09EF99FADC41758EDFBA95 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		74003932538242618BBC2CED /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		F443AA6019E504BF00296483 /* PushTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushTestViewController.h; sourceTree = "<group>"; };
+		F443AA6119E504BF00296483 /* PushTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushTestViewController.m; sourceTree = "<group>"; };
 		F46F2D0F19E3A24F00226ADC /* iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
 		F497CC7419A32F35002B3127 /* BFPaperTabBarController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BFPaperTabBarController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F497CC7719A32F35002B3127 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -96,6 +99,8 @@
 		F497CC6B19A32F35002B3127 = {
 			isa = PBXGroup;
 			children = (
+				F443AA6019E504BF00296483 /* PushTestViewController.h */,
+				F443AA6119E504BF00296483 /* PushTestViewController.m */,
 				F497CC7D19A32F35002B3127 /* BFPaperTabBarController */,
 				F497CC9C19A32F36002B3127 /* BFPaperTabBarControllerTests */,
 				F497CC7619A32F35002B3127 /* Frameworks */,
@@ -318,6 +323,7 @@
 			files = (
 				F497CCAE19A32FAA002B3127 /* BFPaperTabBarController.m in Sources */,
 				F497CC8419A32F35002B3127 /* main.m in Sources */,
+				F443AA6219E504BF00296483 /* PushTestViewController.m in Sources */,
 				F4F2CAB219A5BE1900385596 /* DemoTabBarController.m in Sources */,
 				F497CC8819A32F35002B3127 /* BFPaperAppDelegate.m in Sources */,
 				F4BFBD3519C3D0D900BE0E02 /* TestViewController.m in Sources */,
