@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Classes/BFPaperTabBarController.m"
-            timestampString = "434448359.039884"
+            timestampString = "435800663.38831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "397"
-            endingLineNumber = "397"
-            landmarkName = "-selectTabForPoint:"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
+            landmarkName = "-updateTabBarVisuals"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Classes/BFPaperTabBarController.m"
-            timestampString = "434448738.726638"
+            timestampString = "435800663.38831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "-setupBFPaperTabBarController"
             landmarkType = "5">
          </BreakpointContent>

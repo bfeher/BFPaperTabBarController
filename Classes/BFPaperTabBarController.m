@@ -102,6 +102,14 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 
 
 #pragma mark - View Controller Life Cycle
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // Set up tab bar for KVO on its 'hidden' key:
+    [self.tabBar addObserver:self forKeyPath:BFPaperTabBarControllerKVOKeyPath_hidden options:0 context:BFPaperTabBarControllerContext];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     // Try to remove ourselves from the KVO system:
@@ -189,10 +197,6 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     press.minimumPressDuration = 0;
     [self.invisibleTouchView addGestureRecognizer:press];
     press = nil;
-
-    // Set up tab bar for KVO on its 'hidden' key:
-    [self.tabBar addObserver:self forKeyPath:BFPaperTabBarControllerKVOKeyPath_hidden options:0 context:BFPaperTabBarControllerContext];
-    
     
     // More Defaults:
     self.usesSmartColor = YES;
