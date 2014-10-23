@@ -114,6 +114,19 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
     
     [super viewWillDisappear:animated];
 }
+
+- (void)dealloc
+{
+    // Depending on the situation, sometimes viewWillDisappear isn't called when deallocated (swaping window root view controllers, etc.) so this is here to handle those rare situations.
+    // Try to remove ourselves from the KVO system:
+    @try {
+        [self.tabBar removeObserver:self forKeyPath:BFPaperTabBarControllerKVOKeyPath_hidden];
+    }
+    @catch (NSException * __unused exception) {
+        NSLog(@"Exception \'%@\' caught!\nReason: \'%@\'", exception.name, exception.reason);
+    }
+}
+
 /*
 #pragma mark - Navigation
 
