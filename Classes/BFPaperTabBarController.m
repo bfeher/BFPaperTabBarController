@@ -32,7 +32,6 @@
 
 @interface BFPaperTabBarController () <UIGestureRecognizerDelegate>
 @property CALayer *backgroundColorFadeLayer;
-@property BOOL growthFinished;
 @property NSMutableArray *rippleAnimationQueue;
 @property NSMutableArray *deathRowForCircleLayers;  // This is where old circle layers go to be killed :(
 @property CGPoint tapPoint;
@@ -48,6 +47,10 @@
 @implementation BFPaperTabBarController
 static void *BFPaperTabBarControllerContext = &BFPaperTabBarControllerContext;
 static NSString *BFPaperTabBarControllerKVOKeyPath_hidden = @"hidden";
+// Public consts:
+CGFloat const bfPaperTabBarController_tapCircleDiameterMedium = 200.f;
+CGFloat const bfPaperTabBarController_tapCircleDiameterSmall = bfPaperTabBarController_tapCircleDiameterMedium / 2.f;
+CGFloat const bfPaperTabBarController_tapCircleDiameterLarge = bfPaperTabBarController_tapCircleDiameterMedium * 1.8f;
 CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -1.f;
 // Constants used for tweaking the look/feel of:
 // -animation durations:
@@ -323,6 +326,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
         self.tapPoint = CGPointMake(newLocation.x, location.y);
         
         if (self.showTapCircleAndBackgroundFade) {
+//            self.growthFinished = NO;
             [self growTapCircle];
         }
     }
@@ -335,9 +339,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
         // Remove tap-circle:
         
         if (self.showTapCircleAndBackgroundFade) {
-            if (self.growthFinished) {
-                [self growTapCircleABit];
-            }
+            [self growTapCircleABit];
             [self fadeTapCircleOut];
             [self fadeBackgroundOut];
         }
@@ -711,9 +713,7 @@ static CGFloat const bfPaperTabBarController_backgroundFadeConstant          = 0
 #pragma mark - Animation
 - (void)animationDidStop:(CAAnimation *)theAnimation2 finished:(BOOL)flag
 {
-    //NSLog(@"animation ENDED");
-    self.growthFinished = YES;
-    
+    //NSLog(@"animation ENDED");    
     if ([[theAnimation2 valueForKey:@"id"] isEqualToString:@"fadeCircleOut"]) {
         if (self.deathRowForCircleLayers.count > 0) {
             [[self.deathRowForCircleLayers objectAtIndex:0] removeFromSuperlayer];

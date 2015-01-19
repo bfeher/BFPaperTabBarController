@@ -32,9 +32,9 @@
 
 
 // Nice circle diameter constants with ugly names:
-static CGFloat const bfPaperTabBarController_tapCircleDiameterMedium = 200.f;
-static CGFloat const bfPaperTabBarController_tapCircleDiameterSmall = bfPaperTabBarController_tapCircleDiameterMedium / 2.f;
-static CGFloat const bfPaperTabBarController_tapCircleDiameterLarge = bfPaperTabBarController_tapCircleDiameterMedium * 1.8f;
+extern CGFloat const bfPaperTabBarController_tapCircleDiameterMedium;
+extern CGFloat const bfPaperTabBarController_tapCircleDiameterSmall;
+extern CGFloat const bfPaperTabBarController_tapCircleDiameterLarge;
 extern CGFloat const bfPaperTabBarController_tapCircleDiameterDefault;
 
 
