@@ -94,7 +94,7 @@
     
 //    self.backgroundFadeColor = [UIColor paperColorGreenA400];  // Set this to customize the background fade color.
     
-//    self.tapCircleDiameter = bfPaperTabBarController_tapCircleDiameterSmall;    // Set this to customize the tap-circle diameter.
+//    self.tapCircleDiameter = bfPaperTabBarController_tapCircleDiameterFull;    // Set this to customize the tap-circle diameter.
     
 //    self.underlineColor = [UIColor paperColorAmber]; // Set this to customize the color of the underline which highlights the currently selected tab.
     
