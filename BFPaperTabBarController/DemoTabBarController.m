@@ -98,6 +98,8 @@
     
 //    self.underlineColor = [UIColor paperColorAmber]; // Set this to customize the color of the underline which highlights the currently selected tab.
     
+//    self.animateUnderlineBar = NO;  // YES = bar slides below tabs to the selected one. NO = bar appears below selected tab instantaneously.
+    
 //    self.showUnderline = NO;  // YES = show the underline bar, NO = hide the underline bar.
     
 //    self.underlineThickness = 14.f;    // Set this to adjust the thickness (height) of the underline bar. Not that any value greater than 1 could cover up parts of the TabBarItem's title.

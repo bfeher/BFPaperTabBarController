@@ -10,6 +10,8 @@ BFPaperTabBarController
 
 About
 ---------
+### Now with smoother animations and more public properties for even easier customization!
+
 _BFPaperTabBarController_ is a subclass of UITabBarController that behaves much like the new paper tab bar from Google's Material Design Labs.
 All animation are asynchronous and are performed on sublayers.
 BFPaperTabBarControllers work right away with pleasing default behaviors, however they can be easily customized! The tap-circle color, background fade color, tap-circle diameter, underline color, and underline thickness are all readily customizable via public properties.
@@ -22,17 +24,29 @@ You can set your own colors via: `.tapCircleColor` and `.backgroundFadeColor`. N
 `BOOL usesSmartColor` <br />
 A flag to set YES to use Smart Color, or NO to use a custom color scheme. While Smart Color is the default (usesSmartColor = YES), customization is cool too.
 
-`UIColor *tapCircleColor` <br />
-The UIColor to use for the circle which appears where you tap. NOTE: Setting this defeats the "Smart Color" ability of the tap circle. Alpha values less than 1 are recommended.
+`CGFloat touchDownAnimationDuration` <br />
+A CGFLoat representing the duration of the animations which take place on touch DOWN! Default is `0.25f` seconds. (Go Steelers)
 
-`UIColor *backgroundFadeColor` <br />
-The UIColor to fade clear backgrounds to. NOTE: Setting this defeats the "Smart Color" ability of the background fade. An alpha value of 1 is recommended, as the fade is a constant (clearBGFadeConstant) defined in the BFPaperTabBar.m. This bothers me too.
+`CGFloat touchUpAnimationDuration` <br />
+A CGFLoat representing the duration of the animations which take place on touch UP! Default is `2 * touchDownAnimationDuration` seconds.
+
+`CGFloat tapCircleDiameterStartValue` <br />
+A CGFLoat representing the diameter of the tap-circle as soon as it spawns, before it grows. Default is `5.f`.
 
 `CGFloat tapCircleDiameter` <br />
-The CGFloat value representing the Diameter of the tap-circle. By default it will be calculated to almost be big enough to cover up the whole background. Any value less than zero will result in default being used. Three pleasing sizes, `bfPaperTabBar_tapCircleDiameterSmall`, `bfPaperTabBar_tapCircleDiameterMedium`, and `bfPaperTabBar_tapCircleDiameterLarge` are also available for use.
+The CGFloat value representing the Diameter of the tap-circle. By default it will be the result of `MAX(self.frame.width, self.frame.height)`. `tapCircleDiameterFull` will calculate a circle that always fills the entire view. Any value less than or equal to `tapCircleDiameterFull` will result in default being used. The constants: `tapCircleDiameterLarge`, `tapCircleDiameterMedium`, and `tapCircleDiameterSmall` are also available for use. */
 
-`BOOL rippleFromTapLocation`<br />
-A flag to set to YES to have the tap-circle ripple from point of touch. If this is set to NO, the tap-circle will always ripple from the center of the tab. Default is YES.
+`CGFloat tapCircleBurstAmount` <br />
+The CGFloat value representing how much we should increase the diameter of the tap-circle by when we burst it. Default is `40.f`.
+
+`UIColor *tapCircleColor` <br />
+The UIColor to use for the circle which appears where you tap. NOTE: Setting this defeats the "Smart Color" ability of the tap circle. Alpha values less than `1` are recommended.
+
+`UIColor *backgroundFadeColor` <br />
+The UIColor to fade clear backgrounds to. NOTE: Setting this defeats the "Smart Color" ability of the background fade. Alpha values less than `1` are recommended.
+
+`BOOL rippleFromTapLocation` <br />
+A flag to set to `YES` to have the tap-circle ripple from point of touch. If this is set to `NO`, the tap-circle will always ripple from the center of the view. Default is `YES`.
 
 `UIColor *underlineColor`<br />
 The UIColor to use for the underline below the currently selected tab. NOTE: Setting this defeats the "Smart Color" ability of this underline.
@@ -40,11 +54,14 @@ The UIColor to use for the underline below the currently selected tab. NOTE: Set
 `CGFloat underlineThickness` <br />
 The CGFLoat to set the thickness (height) of the underline. NOTE: Large values will cover up the bottoms of low-hanging letters of a default TabBarItem's title.
 
+`BOOL animateUnderlineBar` <br />
+A BOOL flag indicating whether or not we should animate the bar sliding around below the tabs. `YES` will have the bar slide to the selected tab, `NO` will have it appear below it instantaneously. Default is `YES`.
+
 `BOOL showUnderline`<br />
-A flag to set to YES to show an underline bar that tracks the currently selected tab.
+A flag to set to `YES` to show an underline bar that tracks the currently selected tab.
 
 `BOOL showTapCircleAndBackgroundFade`<br />
-A flag to set to YES to show the tap-circle and background fade. If NO, they will not appear.
+A flag to set to `YES` to show the tap-circle and background fade. If `NO`, they will not appear.
 
 ## Functions
 `(void)selectTabAtIndex:(NSInteger)index animated:(BOOL)animated`<br />
@@ -88,6 +105,8 @@ self.tapCircleDiameter = bfPaperTabBarController_tapCircleDiameterSmall;    // S
     
 self.underlineColor = [UIColor paperColorDeepPurpleA400]; // Set this to customize the color of the underline which highlights the currently selected tab.
     
+self.animateUnderlineBar = NO;  // YES = bar slides below tabs to the selected one. NO = bar appears below selected tab instantaneously.
+
 self.showUnderline = NO;  // YES = show the underline bar, NO = hide the underline bar.
     
 self.underlineThickness = 4.f;    // Set this to adjust the thickness (height) of the underline bar. Not that any value greater than 1 could cover up parts of the TabBarItem's title.
@@ -104,7 +123,7 @@ Learn more at http://cocoapods.org
 Add this to your podfile to add BFPaperTabBarController to your project.
 ```ruby
 platform :ios, '7.0'
-pod 'BFPaperTabBarController', '~> 1.5.7'
+pod 'BFPaperTabBarController', '~> 2.1.6'
 ```
 
 

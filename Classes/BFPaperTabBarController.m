@@ -173,12 +173,12 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     self.backgroundFadeColor            = nil;
     self.underlineThickness             = 2.f;
     self.underlineColor                 = nil;
-    self.showUnderline                  = YES;
+    self.animateUnderlineBar            = YES;
     self.showTapCircleAndBackgroundFade = YES;
     self.rippleFromTapLocation          = YES;
     self.tapCircleDiameterStartValue    = 5.f;
     self.tapCircleDiameter              = bfPaperTabBarController_tapCircleDiameterDefault;
-    self.tapCircleBurstAmount           = 100.f;
+    self.tapCircleBurstAmount           = 40.f;
     self.dumbTapCircleFillColor         = [UIColor colorWithWhite:0.1 alpha:0.3f];
     self.dumbBackgroundFadeColor        = [UIColor colorWithWhite:0.3 alpha:0.1f];
     self.dumbUnderlineColor             = [UIColor colorWithWhite:0.3 alpha:1];
@@ -212,8 +212,11 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     
     [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:)];
 
-    
-    [self setUnderlineForTabIndex:self.selectedTabIndex animated:NO];
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Defaults that rely on other views being instantiated before they can be set:                                         //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    self.showUnderline = YES;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 - (void)setBackgroundFadeLayerForTabAtIndex:(NSInteger)index
@@ -352,9 +355,9 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
 
 
 #pragma mark - Tab Utility Methods
-- (void)setUnderlineForTabIndex:(NSInteger)index animated:(BOOL)animated    // animated affects nothing. What's going on?
+- (void)setUnderlineForTabIndex:(NSInteger)index animated:(BOOL)animated
 {
-    //NSLog(@"setting underline to index: %d", index);
+    NSLog(@"setting underline to index: %d, animated ? %@", index, animated ? @"YES" : @"NO");
     
     CGRect tabRect = [[self.tabRects objectAtIndex:index] CGRectValue];
     
@@ -367,16 +370,16 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     CGFloat y = tabRect.size.height - self.underlineThickness;
     CGFloat w = tabRect.size.width;
     
-    if (animated) {
-        CGFloat duration = self.touchDownAnimationDuration;
-        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.underlineLayer.frame = CGRectMake(x, y, w, self.underlineThickness);
-        } completion:^(BOOL finished) {
-        }];
-    }
-    else {
+//    if (!animated) {
+    CGFloat duration = animated ? self.touchDownAnimationDuration * 0.75f : 0;
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.underlineLayer.frame = CGRectMake(x, y, w, self.underlineThickness);
-    }
+    } completion:^(BOOL finished) {
+    }];
+//    }
+//    else {
+//        self.underlineLayer.frame = CGRectMake(x, y, w, self.underlineThickness);
+//    }
 }
 
 - (void)updateTabBarVisuals
@@ -415,7 +418,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
                     [self.delegate tabBarController:self didSelectViewController:[self.viewControllers objectAtIndex:i]];
                 }
                 if (self.showUnderline) {
-                    [self setUnderlineForTabIndex:i animated:YES];
+                    [self setUnderlineForTabIndex:i animated:self.animateUnderlineBar];
                 }
                 break;
             }
@@ -428,7 +431,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
                     [self.delegate tabBarController:self didSelectViewController:[self.viewControllers objectAtIndex:i]];
                 }
                 if (self.showUnderline) {
-                    [self setUnderlineForTabIndex:i animated:YES];
+                    [self setUnderlineForTabIndex:i animated:self.animateUnderlineBar];
                 }
                 break;
             }

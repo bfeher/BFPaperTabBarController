@@ -77,6 +77,9 @@ extern CGFloat const bfPaperTabBarController_tapCircleDiameterDefault;
 /** The CGFLoat to set the thickness (height) of the underline. NOTE: Any value greater than 1 will cover up the bottoms of low-hanging letters of a default TabBarItem's title. */
 @property CGFloat underlineThickness;
 
+/** A BOOL flag indicating whether or not we should animate the bar sliding around below the tabs. YES will have the bar slide to the selected tab, NO will have it appear below it instantaneously. Default is YES. */
+@property BOOL animateUnderlineBar;
+
 /** A flag to set to YES to show an underline bar that tracks the currently selected tab. */
 @property (nonatomic) BOOL showUnderline;
 
