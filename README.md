@@ -20,6 +20,10 @@ By default, BFPaperTabBarControllers use "Smart Color" which will match the tap-
 You can turn off Smart Color by setting the property, `.usesSmartColor` to `NO`. If you disable Smart Color, a gray color will be used by default for both the tap-circle and the background color fade.
 You can set your own colors via: `.tapCircleColor` and `.backgroundFadeColor`. Note that setting these disables Smart Color.
 
+Changes
+---------
+Please refer to this [CHANGELOG.md](https://github.com/bfeher/BFPaperTabBarController/blob/master/CHANGELOG.md).
+
 ## Properties
 `BOOL usesSmartColor` <br />
 A flag to set YES to use Smart Color, or NO to use a custom color scheme. While Smart Color is the default (usesSmartColor = YES), customization is cool too.
@@ -123,7 +127,7 @@ Learn more at http://cocoapods.org
 Add this to your podfile to add BFPaperTabBarController to your project.
 ```ruby
 platform :ios, '7.0'
-pod 'BFPaperTabBarController', '~> 2.1.8'
+pod 'BFPaperTabBarController', '~> 2.1.9'
 ```
 
 
