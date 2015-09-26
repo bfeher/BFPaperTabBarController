@@ -93,6 +93,15 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
 
 
 #pragma mark - View Controller Life Cycle
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // Insert the animations view and invisible touch view:
+    [self.tabBar insertSubview:self.animationsView atIndex:0];
+    [self.view addSubview:self.invisibleTouchView];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -188,15 +197,13 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     self.animationsView = [[UIView alloc] initWithFrame:self.tabBar.bounds];
     self.animationsView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.animationsView.backgroundColor = [UIColor clearColor];
-    [self.tabBar insertSubview:self.animationsView atIndex:0];
-    
+
     // Set up the invisible layer to capture taps:
     self.invisibleTouchView = [[UIView alloc] initWithFrame:self.tabBar.frame];
     self.invisibleTouchView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.invisibleTouchView.backgroundColor = [UIColor clearColor];
     self.invisibleTouchView.userInteractionEnabled = YES;
     self.invisibleTouchView.exclusiveTouch = NO;
-    [self.view addSubview:self.invisibleTouchView];
     
     UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     press.delegate = self;
