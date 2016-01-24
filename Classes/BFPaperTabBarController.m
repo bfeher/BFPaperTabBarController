@@ -365,6 +365,10 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
 - (void)setUnderlineForTabIndex:(NSInteger)index animated:(BOOL)animated
 {
     //NSLog(@"setting underline to index: %ld, animated ? %@", (long)index, animated ? @"YES" : @"NO");
+  
+    if (index < 0 || index >= [self.tabRects count]) {
+        return;
+    }
     
     CGRect tabRect = [[self.tabRects objectAtIndex:index] CGRectValue];
     
