@@ -118,7 +118,7 @@ self.underlineThickness = 4.f;    // Set this to adjust the thickness (height) o
 self.showTapCircleAndBackgroundFade = NO; // YES = show the tap-circles and add a color fade the background. NO = do not show the tap-circles and background fade.
 ```
 
-Cocoapods
+CocoaPods
 -------
 
 CocoaPods are the best way to manage library dependencies in Objective-C projects.
