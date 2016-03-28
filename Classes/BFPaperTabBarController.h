@@ -83,8 +83,14 @@ extern CGFloat const bfPaperTabBarController_tapCircleDiameterDefault;
 /** A flag to set to YES to show an underline bar that tracks the currently selected tab. */
 @property (nonatomic) BOOL showUnderline;
 
+/** A flag to set to YES to show a line bar on top of icon . If NO, they will not appear. (Default is NO) */
+@property (nonatomic)  BOOL showTopLiner;
+
 /** A flag to set to YES to show the tap-circle and background fade. If NO, they will not appear. */
 @property BOOL showTapCircleAndBackgroundFade;
+
+
+
 
 
 #pragma mark - Utility Functions

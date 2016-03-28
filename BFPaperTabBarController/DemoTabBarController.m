@@ -102,9 +102,13 @@
     
 //    self.showUnderline = NO;  // YES = show the underline bar, NO = hide the underline bar.
     
+//    self.showTopLiner = YES;  // YES = show the line bar on top of the icon, NO = hide the line bar.
+    
 //    self.underlineThickness = 14.f;    // Set this to adjust the thickness (height) of the underline bar. Not that any value greater than 1 could cover up parts of the TabBarItem's title.
     
 //    self.showTapCircleAndBackgroundFade = NO; // YES = show the tap-circles and add a color fade the background. NO = do not show the tap-circles and background fade.
+    
+    
 }
 
 
