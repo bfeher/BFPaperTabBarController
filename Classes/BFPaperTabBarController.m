@@ -416,7 +416,6 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
 }
 
 
-#pragma mark - Tab Utility Methods
 - (void)setToplineForTabIndex:(NSInteger)index animated:(BOOL)animated
 {
     if (index < 0 || index >= [self.tabRects count]) {
