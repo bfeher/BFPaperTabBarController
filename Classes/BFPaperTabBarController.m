@@ -37,6 +37,7 @@
 @property CGPoint tapPoint;
 @property NSInteger selectedTabIndex;
 @property UIView *underlineLayer;
+@property UIView *topLineLayer;
 @property UIView *animationsView;
 @property UIView *invisibleTouchView;
 @property (nonatomic) NSMutableArray *tabRects;
@@ -223,6 +224,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     // Defaults that rely on other views being instantiated before they can be set:                                         //
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     self.showUnderline = YES;
+    self.showTopLiner  = NO;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
@@ -266,7 +268,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
             [self.underlineLayer removeFromSuperview];
         }
         else if (!self.underlineLayer) {
-            CGFloat y = self.tabBar.bounds.size.height - self.underlineThickness;
+            CGFloat y =  self.tabBar.bounds.size.height - self.underlineThickness;
             self.underlineLayer = [UIView new];
             self.underlineLayer.frame = CGRectMake(self.tabBar.bounds.origin.x, y, self.tabBar.bounds.size.width, self.underlineThickness);
             //NSLog(@"underline frame: (%0.2f, %0.2f, %0.2f, %0.2f)", self.underlineLayer.frame.origin.x, self.underlineLayer.frame.origin.y, self.underlineLayer.frame.size.width, self.underlineLayer.frame.size.height);
@@ -277,6 +279,26 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     }
 }
 
+- (void)setShowTopLiner:(BOOL)showTopLiner{
+
+    if (_showTopLiner != showTopLiner) {
+        _showTopLiner = showTopLiner;
+        
+        if (!_showTopLiner) {
+            [self.topLineLayer removeFromSuperview];
+        }
+        else if (!self.topLineLayer) {
+            CGFloat y = 0 ;
+            self.topLineLayer = [UIView new];
+            self.topLineLayer.frame = CGRectMake(self.tabBar.bounds.origin.x, y, self.tabBar.bounds.size.width, self.underlineThickness);
+            //NSLog(@"underline frame: (%0.2f, %0.2f, %0.2f, %0.2f)", self.underlineLayer.frame.origin.x, self.underlineLayer.frame.origin.y, self.underlineLayer.frame.size.width, self.underlineLayer.frame.size.height);
+            
+            [self.animationsView addSubview:self.topLineLayer];
+            [self setToplineForTabIndex:self.selectedTabIndex animated:NO];
+        }
+    }
+
+}
 
 #pragma mark - KVO Handling
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -393,6 +415,33 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
 //    }
 }
 
+
+- (void)setToplineForTabIndex:(NSInteger)index animated:(BOOL)animated
+{
+    if (index < 0 || index >= [self.tabRects count]) {
+        return;
+    }
+    
+    CGRect tabRect = [[self.tabRects objectAtIndex:index] CGRectValue];
+    
+    UIColor *bgColor = self.underlineColor;
+    if (!bgColor) {
+        bgColor = self.usesSmartColor ? self.tabBar.tintColor : self.dumbUnderlineColor;
+    }
+    self.topLineLayer.backgroundColor = bgColor;
+    CGFloat x = tabRect.origin.x;
+    CGFloat y = 0 ;
+    CGFloat w = tabRect.size.width;
+    
+    CGFloat duration = animated ? self.touchDownAnimationDuration * 0.75f : 0;
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.topLineLayer.frame = CGRectMake(x, y, w, self.underlineThickness);
+    } completion:^(BOOL finished) {
+    }];
+
+}
+
+
 - (void)updateTabBarVisuals
 {
     double delayInSeconds = 0.1;
@@ -402,6 +451,10 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
         self.invisibleTappableTabRects = [self calculateInvisibleTabRects];
         self.animationsView.frame = self.tabBar.bounds;
         self.invisibleTouchView.frame = self.tabBar.frame;
+        
+        if (self.showTopLiner) {
+            [self setToplineForTabIndex:self.selectedTabIndex animated:NO];
+        }
         
         if (self.showUnderline) {
             [self setUnderlineForTabIndex:self.selectedTabIndex animated:NO];
@@ -431,6 +484,10 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
                 if (self.showUnderline) {
                     [self setUnderlineForTabIndex:i animated:self.animateUnderlineBar];
                 }
+                
+                if (self.showTopLiner) {
+                    [self setToplineForTabIndex:i animated:self.animateUnderlineBar];
+                }
                 break;
             }
             else {
@@ -443,6 +500,11 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
                 }
                 if (self.showUnderline) {
                     [self setUnderlineForTabIndex:i animated:self.animateUnderlineBar];
+                }
+                
+                
+                if (self.showTopLiner) {
+                    [self setToplineForTabIndex:i animated:self.animateUnderlineBar];
                 }
                 break;
             }
