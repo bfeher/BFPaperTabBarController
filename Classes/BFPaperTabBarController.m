@@ -224,7 +224,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     // Defaults that rely on other views being instantiated before they can be set:                                         //
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     self.showUnderline = YES;
-    self.showTopLiner  = NO;
+    self.showTopLine  = NO;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
@@ -278,13 +278,12 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
         }
     }
 }
+-(void)setShowTopLine:(BOOL)showTopLine{
 
-- (void)setShowTopLiner:(BOOL)showTopLiner{
-
-    if (_showTopLiner != showTopLiner) {
-        _showTopLiner = showTopLiner;
+    if (_showTopLine != showTopLine) {
+        _showTopLine = showTopLine;
         
-        if (!_showTopLiner) {
+        if (!_showTopLine) {
             [self.topLineLayer removeFromSuperview];
         }
         else if (!self.topLineLayer) {
@@ -452,7 +451,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
         self.animationsView.frame = self.tabBar.bounds;
         self.invisibleTouchView.frame = self.tabBar.frame;
         
-        if (self.showTopLiner) {
+        if (self.showTopLine) {
             [self setToplineForTabIndex:self.selectedTabIndex animated:NO];
         }
         
@@ -485,7 +484,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
                     [self setUnderlineForTabIndex:i animated:self.animateUnderlineBar];
                 }
                 
-                if (self.showTopLiner) {
+                if (self.showTopLine) {
                     [self setToplineForTabIndex:i animated:self.animateUnderlineBar];
                 }
                 break;
@@ -503,7 +502,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
                 }
                 
                 
-                if (self.showTopLiner) {
+                if (self.showTopLine) {
                     [self setToplineForTabIndex:i animated:self.animateUnderlineBar];
                 }
                 break;
