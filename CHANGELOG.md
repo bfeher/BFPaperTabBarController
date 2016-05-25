@@ -5,7 +5,7 @@ BFPaperTabBarController
 > Note that this changelog was started very late, at roughly the time between version 2.1.8 and 2.1.9. Non consecutive jumps in changelog mean that there were incremental builds that weren't released as a pod, typically while solving a problem.
 
 
-2.1.12.1
+2.1.13
 ---------
 ^ Migrated to CocoaPods 1.0.
 
