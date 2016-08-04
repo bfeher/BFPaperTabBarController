@@ -25,53 +25,53 @@ Changes
 Please refer to this [CHANGELOG.md](https://github.com/bfeher/BFPaperTabBarController/blob/master/CHANGELOG.md).
 
 ## Properties
-`BOOL usesSmartColor` <br />
-A flag to set YES to use Smart Color, or NO to use a custom color scheme. While Smart Color is the default (usesSmartColor = YES), customization is cool too.
+`BOOL usesSmartColor`  
+> A flag to set YES to use Smart Color, or NO to use a custom color scheme. While Smart Color is the default (usesSmartColor = YES), customization is cool too.  
 
-`CGFloat touchDownAnimationDuration` <br />
-A CGFLoat representing the duration of the animations which take place on touch DOWN! Default is `0.25f` seconds. (Go Steelers)
+`CGFloat touchDownAnimationDuration`  
+> A CGFLoat representing the duration of the animations which take place on touch DOWN! Default is `0.25f` seconds. (Go Steelers)  
 
-`CGFloat touchUpAnimationDuration` <br />
-A CGFLoat representing the duration of the animations which take place on touch UP! Default is `2 * touchDownAnimationDuration` seconds.
+`CGFloat touchUpAnimationDuration`  
+> A CGFLoat representing the duration of the animations which take place on touch UP! Default is `2 * touchDownAnimationDuration` seconds.  
 
-`CGFloat tapCircleDiameterStartValue` <br />
-A CGFLoat representing the diameter of the tap-circle as soon as it spawns, before it grows. Default is `5.f`.
+`CGFloat tapCircleDiameterStartValue`  
+> A CGFLoat representing the diameter of the tap-circle as soon as it spawns, before it grows. Default is `5.f`.  
 
-`CGFloat tapCircleDiameter` <br />
-The CGFloat value representing the Diameter of the tap-circle. By default it will be the result of `MAX(self.frame.width, self.frame.height)`. `tapCircleDiameterFull` will calculate a circle that always fills the entire view. Any value less than or equal to `tapCircleDiameterFull` will result in default being used. The constants: `tapCircleDiameterLarge`, `tapCircleDiameterMedium`, and `tapCircleDiameterSmall` are also available for use. */
+`CGFloat tapCircleDiameter`  
+> The CGFloat value representing the Diameter of the tap-circle. By default it will be the result of `MAX(self.frame.width, self.frame.height)`. `tapCircleDiameterFull` will calculate a circle that always fills the entire view. Any value less than or equal to `tapCircleDiameterFull` will result in default being used. The constants: `tapCircleDiameterLarge`, `tapCircleDiameterMedium`, and `tapCircleDiameterSmall` are also available for use.  
 
-`CGFloat tapCircleBurstAmount` <br />
-The CGFloat value representing how much we should increase the diameter of the tap-circle by when we burst it. Default is `40.f`.
+`CGFloat tapCircleBurstAmount`  
+> The CGFloat value representing how much we should increase the diameter of the tap-circle by when we burst it. Default is `40.f`.  
 
-`UIColor *tapCircleColor` <br />
-The UIColor to use for the circle which appears where you tap. NOTE: Setting this defeats the "Smart Color" ability of the tap circle. Alpha values less than `1` are recommended.
+`UIColor *tapCircleColor`  
+> The UIColor to use for the circle which appears where you tap. NOTE: Setting this defeats the "Smart Color" ability of the tap circle. Alpha values less than `1` are recommended.  
 
-`UIColor *backgroundFadeColor` <br />
-The UIColor to fade clear backgrounds to. NOTE: Setting this defeats the "Smart Color" ability of the background fade. Alpha values less than `1` are recommended.
+`UIColor *backgroundFadeColor`  
+> The UIColor to fade clear backgrounds to. NOTE: Setting this defeats the "Smart Color" ability of the background fade. Alpha values less than `1` are recommended.  
 
-`BOOL rippleFromTapLocation` <br />
-A flag to set to `YES` to have the tap-circle ripple from point of touch. If this is set to `NO`, the tap-circle will always ripple from the center of the view. Default is `YES`.
+`BOOL rippleFromTapLocation`  
+> A flag to set to `YES` to have the tap-circle ripple from point of touch. If this is set to `NO`, the tap-circle will always ripple from the center of the view. Default is `YES`.  
 
-`UIColor *underlineColor`<br />
-The UIColor to use for the underline below the currently selected tab. NOTE: Setting this defeats the "Smart Color" ability of this underline.
+`UIColor *underlineColor`  
+> The UIColor to use for the underline below the currently selected tab. NOTE: Setting this defeats the "Smart Color" ability of this underline.  
 
-`CGFloat underlineThickness` <br />
-The CGFLoat to set the thickness (height) of the underline. NOTE: Large values will cover up the bottoms of low-hanging letters of a default TabBarItem's title.
+`CGFloat underlineThickness`  
+> The CGFLoat to set the thickness (height) of the underline. NOTE: Large values will cover up the bottoms of low-hanging letters of a default TabBarItem's title.  
 
-`BOOL animateUnderlineBar` <br />
-A BOOL flag indicating whether or not we should animate the bar sliding around below the tabs. `YES` will have the bar slide to the selected tab, `NO` will have it appear below it instantaneously. Default is `YES`.
+`BOOL animateUnderlineBar`  
+> A BOOL flag indicating whether or not we should animate the bar sliding around below the tabs. `YES` will have the bar slide to the selected tab, `NO` will have it appear below it instantaneously. Default is `YES`.  
 
-`BOOL showUnderline`<br />
-A flag to set to `YES` to show an underline bar that tracks the currently selected tab.
+`BOOL showUnderline`  
+> A flag to set to `YES` to show an underline bar that tracks the currently selected tab.  
 
-`BOOL showTapCircleAndBackgroundFade`<br />
-A flag to set to `YES` to show the tap-circle and background fade. If `NO`, they will not appear.
+`BOOL showTapCircleAndBackgroundFade`  
+> A flag to set to `YES` to show the tap-circle and background fade. If `NO`, they will not appear.  
 
 ## Functions
-`(void)selectTabAtIndex:(NSInteger)index animated:(BOOL)animated`<br />
-Selects and highlights a tab.<br />
-@param index    (NSInteger) The index of the tab you wish to select and highlight.<br />
-@param animated (BOOL) A flag to determine if we should animate the change or not.
+`(void)selectTabAtIndex:(NSInteger)index animated:(BOOL)animated`  
+>Selects and highlights a tab.  
+>>@param index    (NSInteger) The index of the tab you wish to select and highlight.  
+>>@param animated (BOOL) A flag to determine if we should animate the change or not.  
 
 
 To Do
@@ -95,6 +95,7 @@ To use a BFPaperTabBarController, create a UITabBarController object and set its
 ### Customized Example
 *In your UITabBarController which is a subclass of BFPaperTabBarController:*<br />*(Taken directly from example project.)*<br />
 ```objective-c
+// NOTE: paperColors available from my other library, BFPaperColors :)
 self.tabBar.tintColor = [UIColor paperColorDeepPurpleA400]; // set the tab bar tint color to something cool.
 
 self.rippleFromTapLocation = NO;  // YES = spawn tap-circles from tap locaiton. NO = spawn tap-circles from the center of the tab.

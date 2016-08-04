@@ -29,7 +29,7 @@
 
 
 #import "DemoTabBarController.h"
-#import "UIColor+BFPaperColors.h"
+
 
 @interface DemoTabBarController ()
 
@@ -79,7 +79,7 @@
 
 - (void)demoSetup
 {
-    self.tabBar.tintColor = [UIColor paperColorDeepPurpleA400]; // set the tab bar tint color to something cool.
+    self.tabBar.tintColor = [UIColor colorWithRed:101.f/255.f green:31.f/255.f blue:255.f/255.f alpha:1]; // set the tab bar tint color to something cool.
     
     self.delegate = self;   // Just to demo that delegate methods are being called.
     
@@ -90,13 +90,13 @@
     
 //    self.usesSmartColor = NO; // YES = colors are chosen from the tabBar.tintColor. NO = colors will be shades of gray.
     
-//    self.tapCircleColor = [[UIColor paperColorLightBlue] colorWithAlphaComponent:0.2];    // Set this to customize the tap-circle color.
+//    self.tapCircleColor = [UIColor colorWithRed:3.f/255.f green:169.f/255.f blue:244.f/255.f alpha:0.2f];    // Set this to customize the tap-circle color.
     
-//    self.backgroundFadeColor = [UIColor paperColorGreenA400];  // Set this to customize the background fade color.
+//    self.backgroundFadeColor = [UIColor colorWithRed:0.f/255.f green:230.f/255.f blue:118.f/255.f alpha:1];  // Set this to customize the background fade color.
     
 //    self.tapCircleDiameter = bfPaperTabBarController_tapCircleDiameterFull;    // Set this to customize the tap-circle diameter.
     
-//    self.underlineColor = [UIColor paperColorAmber]; // Set this to customize the color of the underline which highlights the currently selected tab.
+//    self.underlineColor = [UIColor colorWithRed:255.f/255.f green:193.f/255.f blue:7.f/255.f alpha:1]; // Set this to customize the color of the underline which highlights the currently selected tab.
     
 //    self.animateUnderlineBar = NO;  // YES = bar slides below tabs to the selected one. NO = bar appears below selected tab instantaneously.
     

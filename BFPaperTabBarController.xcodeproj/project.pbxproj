@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4BC066B9339F51F70C2FA57A /* libPods-BFPaperTabBarController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A81F9F16F35088178145356A /* libPods-BFPaperTabBarController.a */; };
+		505849231D531DDF00FEE8FE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505849221D531DDF00FEE8FE /* Launch Screen.storyboard */; };
 		F443AA6219E504BF00296483 /* PushTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F443AA6119E504BF00296483 /* PushTestViewController.m */; };
 		F46F2D1019E3A24F00226ADC /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F46F2D0F19E3A24F00226ADC /* iPad.storyboard */; };
 		F46F2D1119E3A24F00226ADC /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F46F2D0F19E3A24F00226ADC /* iPad.storyboard */; };
@@ -41,9 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2C0D097E16CB1A45A0DD7EDB /* Pods-BFPaperTabBarController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BFPaperTabBarController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BFPaperTabBarController/Pods-BFPaperTabBarController.debug.xcconfig"; sourceTree = "<group>"; };
-		63CBA1B35A95DB34F6233C60 /* Pods-BFPaperTabBarController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BFPaperTabBarController.release.xcconfig"; path = "Pods/Target Support Files/Pods-BFPaperTabBarController/Pods-BFPaperTabBarController.release.xcconfig"; sourceTree = "<group>"; };
-		A81F9F16F35088178145356A /* libPods-BFPaperTabBarController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BFPaperTabBarController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		505849221D531DDF00FEE8FE /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		F443AA6019E504BF00296483 /* PushTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushTestViewController.h; sourceTree = "<group>"; };
 		F443AA6119E504BF00296483 /* PushTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushTestViewController.m; sourceTree = "<group>"; };
 		F46F2D0F19E3A24F00226ADC /* iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
@@ -80,7 +78,6 @@
 				F497CC7A19A32F35002B3127 /* CoreGraphics.framework in Frameworks */,
 				F497CC7C19A32F35002B3127 /* UIKit.framework in Frameworks */,
 				F497CC7819A32F35002B3127 /* Foundation.framework in Frameworks */,
-				4BC066B9339F51F70C2FA57A /* libPods-BFPaperTabBarController.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,15 +94,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5368600F02C091A795BA9C08 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2C0D097E16CB1A45A0DD7EDB /* Pods-BFPaperTabBarController.debug.xcconfig */,
-				63CBA1B35A95DB34F6233C60 /* Pods-BFPaperTabBarController.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		F497CC6B19A32F35002B3127 = {
 			isa = PBXGroup;
 			children = (
@@ -115,7 +103,6 @@
 				F497CC9C19A32F36002B3127 /* BFPaperTabBarControllerTests */,
 				F497CC7619A32F35002B3127 /* Frameworks */,
 				F497CC7519A32F35002B3127 /* Products */,
-				5368600F02C091A795BA9C08 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -135,7 +122,6 @@
 				F497CC7919A32F35002B3127 /* CoreGraphics.framework */,
 				F497CC7B19A32F35002B3127 /* UIKit.framework */,
 				F497CC9619A32F36002B3127 /* XCTest.framework */,
-				A81F9F16F35088178145356A /* libPods-BFPaperTabBarController.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -165,6 +151,7 @@
 				F497CC8019A32F35002B3127 /* InfoPlist.strings */,
 				F497CC8319A32F35002B3127 /* main.m */,
 				F497CC8519A32F35002B3127 /* BFPaperTabBarController-Prefix.pch */,
+				505849221D531DDF00FEE8FE /* Launch Screen.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -203,13 +190,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F497CCA619A32F36002B3127 /* Build configuration list for PBXNativeTarget "BFPaperTabBarController" */;
 			buildPhases = (
-				15BA7DDE02642444B8A8EE30 /* 📦 Check Pods Manifest.lock */,
 				F497CC7019A32F35002B3127 /* Sources */,
 				F497CC7119A32F35002B3127 /* Frameworks */,
 				F4FBB1D41A6C8ADF00154E09 /* ShellScript */,
 				F497CC7219A32F35002B3127 /* Resources */,
-				7D963CF25808FB89587D1F40 /* 📦 Embed Pods Frameworks */,
-				5BC9F3FC17D63DA9C71FE9BC /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -245,7 +229,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = BFPaper;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Bence Feher";
 				TargetAttributes = {
 					F497CC9419A32F35002B3127 = {
@@ -280,6 +264,7 @@
 				F46F2D1019E3A24F00226ADC /* iPad.storyboard in Resources */,
 				F497CC9019A32F35002B3127 /* Images.xcassets in Resources */,
 				F497CC8219A32F35002B3127 /* InfoPlist.strings in Resources */,
+				505849231D531DDF00FEE8FE /* Launch Screen.storyboard in Resources */,
 				F497CC8B19A32F35002B3127 /* iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,51 +281,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		15BA7DDE02642444B8A8EE30 /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		5BC9F3FC17D63DA9C71FE9BC /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BFPaperTabBarController/Pods-BFPaperTabBarController-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7D963CF25808FB89587D1F40 /* 📦 Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BFPaperTabBarController/Pods-BFPaperTabBarController-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		F4FBB1D41A6C8ADF00154E09 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -435,6 +375,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -489,14 +430,13 @@
 		};
 		F497CCA719A32F36002B3127 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C0D097E16CB1A45A0DD7EDB /* Pods-BFPaperTabBarController.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BFPaperTabBarController/BFPaperTabBarController-Prefix.pch";
 				INFOPLIST_FILE = "BFPaperTabBarController/BFPaperTabBarController-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bencefeher.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -505,14 +445,13 @@
 		};
 		F497CCA819A32F36002B3127 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63CBA1B35A95DB34F6233C60 /* Pods-BFPaperTabBarController.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BFPaperTabBarController/BFPaperTabBarController-Prefix.pch";
 				INFOPLIST_FILE = "BFPaperTabBarController/BFPaperTabBarController-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bencefeher.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -535,6 +474,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "BFPaperTabBarControllerTests/BFPaperTabBarControllerTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bencefeher.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -553,6 +493,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BFPaperTabBarController/BFPaperTabBarController-Prefix.pch";
 				INFOPLIST_FILE = "BFPaperTabBarControllerTests/BFPaperTabBarControllerTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bencefeher.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
