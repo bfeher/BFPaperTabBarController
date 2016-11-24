@@ -738,9 +738,21 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
 
 
 #pragma mark - Tab Bar Delegate
+
+
+- (void)tabBar:(UITabBar *)tabBar willBeginCustomizingItems:(NSArray<UITabBarItem *> *)items {
+    [super tabBar:tabBar willBeginCustomizingItems:items];
+    
+    // In order to allow tabs reordering by dragging (native mechanism) it is needed to disable our invisibleTouchView while customization sceen is shown.
+    self.invisibleTouchView.userInteractionEnabled = NO;
+}
+
+
 - (void)tabBar:(UITabBar *)tabBar didEndCustomizingItems:(NSArray *)items changed:(BOOL)changed
 {
     [super tabBar:tabBar didEndCustomizingItems:items changed:changed];
+    
+    self.invisibleTouchView.userInteractionEnabled = YES;
     
     if (changed) {
         [self updateTabBarVisuals];
