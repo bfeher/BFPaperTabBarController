@@ -64,6 +64,9 @@ Please refer to this [CHANGELOG.md](https://github.com/bfeher/BFPaperTabBarContr
 `BOOL showUnderline`  
 > A flag to set to `YES` to show an underline bar that tracks the currently selected tab.  
 
+`BOOL showTopLine`  
+> A flag to set to `YES` to show an overline bar that tracks the currently selected tab.  
+
 `BOOL showTapCircleAndBackgroundFade`  
 > A flag to set to `YES` to show the tap-circle and background fade. If `NO`, they will not appear.  
 
