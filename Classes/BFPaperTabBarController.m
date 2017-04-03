@@ -379,10 +379,10 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     [self setBackgroundFadeLayerForTabAtIndex:index];
     
     if (self.showTopLine)
-        [self setToplineForTabIndex:index animated:NO];
+        [self setToplineForTabIndex:index animated:animated];
     
     if (self.showUnderline)
-        [self setUnderlineForTabIndex:index animated:NO];
+        [self setUnderlineForTabIndex:index animated:animated];
     
 }
 
