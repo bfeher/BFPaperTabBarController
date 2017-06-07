@@ -70,6 +70,10 @@ Please refer to this [CHANGELOG.md](https://github.com/bfeher/BFPaperTabBarContr
 `BOOL showTapCircleAndBackgroundFade`  
 > A flag to set to `YES` to show the tap-circle and background fade. If `NO`, they will not appear.  
 
+`BOOL userInteractionEnabled`  
+> A flag that enables or disables the touch gesture of the bar. Set this to NO when something covers the tab bar (like a full screen popup).  
+
+
 ## Functions
 `(void)selectTabAtIndex:(NSInteger)index animated:(BOOL)animated`  
 >Selects and highlights a tab.  
@@ -102,23 +106,23 @@ To use a BFPaperTabBarController, create a UITabBarController object and set its
 self.tabBar.tintColor = [UIColor paperColorDeepPurpleA400]; // set the tab bar tint color to something cool.
 
 self.rippleFromTapLocation = NO;  // YES = spawn tap-circles from tap locaiton. NO = spawn tap-circles from the center of the tab.
-    
+
 self.usesSmartColor = NO; // YES = colors are chosen from the tabBar.tintColor. NO = colors will be shades of gray.
-    
+
 self.tapCircleColor = [[UIColor paperColorLightBlue] colorWithAlphaComponent:0.2];    // Set this to customize the tap-circle color.
-    
+
 self.backgroundFadeColor = [UIColor paperColorGreenA400];  // Set this to customize the background fade color.
-    
+
 self.tapCircleDiameter = bfPaperTabBarController_tapCircleDiameterSmall;    // Set this to customize the tap-circle diameter.
-    
+
 self.underlineColor = [UIColor paperColorDeepPurpleA400]; // Set this to customize the color of the underline which highlights the currently selected tab.
-    
+
 self.animateUnderlineBar = NO;  // YES = bar slides below tabs to the selected one. NO = bar appears below selected tab instantaneously.
 
 self.showUnderline = NO;  // YES = show the underline bar, NO = hide the underline bar.
-    
+
 self.underlineThickness = 4.f;    // Set this to adjust the thickness (height) of the underline bar. Not that any value greater than 1 could cover up parts of the TabBarItem's title.
-    
+
 self.showTapCircleAndBackgroundFade = NO; // YES = show the tap-circles and add a color fade the background. NO = do not show the tap-circles and background fade.
 ```
 
