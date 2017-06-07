@@ -39,7 +39,7 @@ extern CGFloat const bfPaperTabBarController_tapCircleDiameterFull;
 extern CGFloat const bfPaperTabBarController_tapCircleDiameterDefault;
 
 IB_DESIGNABLE
-@interface BFPaperTabBarController : UITabBarController
+@interface BFPaperTabBarController : UITabBarController <CAAnimationDelegate>
 
 #pragma mark - Properties
 #pragma mark Animation
@@ -88,6 +88,9 @@ IB_DESIGNABLE
 
 /** A flag to set to YES to show the tap-circle and background fade. If NO, they will not appear. */
 @property IBInspectable BOOL showTapCircleAndBackgroundFade;
+
+/** A flag that enables or disables the touch gesture of the bar. Set this to NO when something covers the tab bar (like a full screen popup). */
+@property (nonatomic) BOOL userInteractionEnabled;
 
 
 #pragma mark - Utility Functions
