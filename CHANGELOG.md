@@ -5,10 +5,15 @@ BFPaperTabBarController
 > Note that this changelog was started very late, at roughly the time between version 2.1.8 and 2.1.9. Non consecutive jumps in changelog mean that there were incremental builds that weren't released as a pod, typically while solving a problem.
 
 
+2.2.9
+---------
+* (+) Added double tap to pop to root view controller if selected tab responds to such a call. (Issue 15)[https://github.com/bfeher/BFPaperTabBarController/issues/15]  
+* (+) Added ability to silence invisible touch view via new property: '.userInteractionEnabled'.
+
+
 2.2.8
 ---------
 * (^) Fixed animation bug when set programmatically. [Onur Var](https://github.com/onurvarrrr). (Pull request 9)[https://github.com/bfeher/BFPaperTabBarController/pull/27]
-
 
 2.2.7
 ---------
