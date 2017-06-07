@@ -33,9 +33,17 @@
     // Pass the selected object to the new view controller.
 }
 */
-- (IBAction)pushPressed:(UIButton *)sender
+- (IBAction)pushHidePressed:(UIButton *)sender
 {
-    [self performSegueWithIdentifier:@"push" sender:self];
+    [self performSegueWithIdentifier:@"pushHide" sender:self];
+    /* NOTE!!
+     * The setting to hide the tab bar on push is in the storyboard properties inspector of TestViewController!
+     */
+}
+
+- (IBAction)pushNoHidePressed:(UIButton *)sender
+{
+    [self performSegueWithIdentifier:@"pushNoHide" sender:self];
 }
 
 - (IBAction)toggleHiddenPressed:(UIButton *)sender
