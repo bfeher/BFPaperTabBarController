@@ -521,6 +521,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     return CGRectZero;
 }
 
+
 - (NSMutableArray *)calculateTabRects
 {
     //NSLog(@"calculating Tab Rects with tabBar.bounds.size.width = \'%0.2f\'", self.tabBar.bounds.size.width);
@@ -539,22 +540,41 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     for (int i = 0; i < preSizeAdjustment.count; i++) {
         NSValue *tabValue = [preSizeAdjustment objectAtIndex:i];
         CGRect frame = tabValue.CGRectValue;
+		CGRect nextFrame = (i < preSizeAdjustment.count - 1) ? [[preSizeAdjustment objectAtIndex:i + 1] CGRectValue] : CGRectZero;
+		CGRect previousFrame = (i > 0) ? [[preSizeAdjustment objectAtIndex:i - 1] CGRectValue] : CGRectZero;
         if (i == 0) {
             // First tab: extend from bar origin to midpoint between first and second tab.
-            CGFloat rightSpace = ([[preSizeAdjustment objectAtIndex:i + 1] CGRectValue].origin.x - (frame.origin.x + frame.size.width)) / 2.f;
-            frame = CGRectMake(0, frame.origin.y, frame.size.width + frame.origin.x + rightSpace, frame.size.height);
+			if (nextFrame.origin.x > frame.origin.x) {
+				CGFloat rightSpace = (nextFrame.origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+				frame = CGRectMake(0, frame.origin.y, frame.size.width + frame.origin.x + rightSpace, frame.size.height);
+			} else {
+				CGFloat leftSpace = (frame.origin.x - (nextFrame.origin.x + nextFrame.size.width)) / 2.f;
+				frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, self.tabBar.bounds.size.width - frame.origin.x + leftSpace, frame.size.height);
+			}
         }
         else if (i == preSizeAdjustment.count - 1) {
             // Last tab: extend from midpoint between previous tab and last tab to end of bar.
-            CGFloat leftSpace = (frame.origin.x - ([[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].origin.x + [[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].size.width)) / 2.f;
-            frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, self.tabBar.bounds.size.width - frame.origin.x + leftSpace, frame.size.height);
+			if (previousFrame.origin.x < frame.origin.x) {
+				CGFloat leftSpace = (frame.origin.x - (previousFrame.origin.x + previousFrame.size.width)) / 2.f;
+				frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, self.tabBar.bounds.size.width - frame.origin.x + leftSpace, frame.size.height);
+			} else {
+				CGFloat rightSpace = (previousFrame.origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+				frame = CGRectMake(0, frame.origin.y, frame.size.width + frame.origin.x + rightSpace, frame.size.height);
+			}
         }
         else {
             // Mid tabs: extend from midpoint between previous tab and current tab to midpoint between current tab and next tab.
-            CGFloat leftSpace = (frame.origin.x - ([[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].origin.x + [[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].size.width)) / 2.f;
-            CGFloat rightSpace = ([[preSizeAdjustment objectAtIndex:i + 1] CGRectValue].origin.x - (frame.origin.x + frame.size.width)) / 2.f;
-            
-            frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, frame.size.width + leftSpace + rightSpace, frame.size.height);
+			if (nextFrame.origin.x > frame.origin.x) {
+				CGFloat leftSpace = (frame.origin.x - (previousFrame.origin.x + previousFrame.size.width)) / 2.f;
+				CGFloat rightSpace = (nextFrame.origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+				
+				frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, frame.size.width + leftSpace + rightSpace, frame.size.height);
+			} else {
+				CGFloat leftSpace = (frame.origin.x - (nextFrame.origin.x + nextFrame.size.width)) / 2.f;
+				CGFloat rightSpace = (previousFrame.origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+				
+				frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, frame.size.width + leftSpace + rightSpace, frame.size.height);
+			}
         }
         
         frame = CGRectMake(frame.origin.x, frame.origin.y - 1, frame.size.width, frame.size.height + 1);    // This adjusts for the 1 point of space above and below each tab. We don't want it so we make our frame swallow it up.
@@ -589,22 +609,41 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     for (int i = 0; i < preSizeAdjustment.count; i++) {
         NSValue *tabValue = [preSizeAdjustment objectAtIndex:i];
         CGRect frame = tabValue.CGRectValue;
+		CGRect nextFrame = (i < preSizeAdjustment.count - 1) ? [[preSizeAdjustment objectAtIndex:i + 1] CGRectValue] : CGRectZero;
+		CGRect previousFrame = (i > 0) ? [[preSizeAdjustment objectAtIndex:i - 1] CGRectValue] : CGRectZero;
         if (i == 0) {
             // First tab: extend from bar origin to midpoint between first and second tab.
-            CGFloat rightSpace = ([[preSizeAdjustment objectAtIndex:i + 1] CGRectValue].origin.x - (frame.origin.x + frame.size.width)) / 2.f;
-            frame = CGRectMake(0, frame.origin.y, frame.size.width + frame.origin.x + rightSpace, frame.size.height);
+			if (nextFrame.origin.x > frame.origin.x) {
+				CGFloat rightSpace = (nextFrame.origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+				frame = CGRectMake(0, frame.origin.y, frame.size.width + frame.origin.x + rightSpace, frame.size.height);
+			} else {
+				CGFloat leftSpace = (frame.origin.x - (nextFrame.origin.x + nextFrame.size.width)) / 2.f;
+				frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, self.tabBar.bounds.size.width - frame.origin.x + leftSpace, frame.size.height);
+			}
         }
         else if (i == preSizeAdjustment.count - 1) {
             // Last tab: extend from midpoint between previous tab and last tab to end of bar.
-            CGFloat leftSpace = (frame.origin.x - ([[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].origin.x + [[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].size.width)) / 2.f;
-            frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, self.tabBar.bounds.size.width - frame.origin.x + leftSpace, frame.size.height);
+			if (previousFrame.origin.x < frame.origin.x) {
+				CGFloat leftSpace = (frame.origin.x - (previousFrame.origin.x + previousFrame.size.width)) / 2.f;
+				frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, self.tabBar.bounds.size.width - frame.origin.x + leftSpace, frame.size.height);
+			} else {
+				CGFloat rightSpace = (previousFrame.origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+				frame = CGRectMake(0, frame.origin.y, frame.size.width + frame.origin.x + rightSpace, frame.size.height);
+			}
         }
         else {
             // Mid tabs: extend from midpoint between previous tab and current tab to midpoint between current tab and next tab.
-            CGFloat leftSpace = (frame.origin.x - ([[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].origin.x + [[preSizeAdjustment objectAtIndex:i - 1] CGRectValue].size.width)) / 2.f;
-            CGFloat rightSpace = ([[preSizeAdjustment objectAtIndex:i + 1] CGRectValue].origin.x - (frame.origin.x + frame.size.width)) / 2.f;
-            
-            frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, frame.size.width + leftSpace + rightSpace, frame.size.height);
+			if (nextFrame.origin.x > frame.origin.x) {
+				CGFloat leftSpace = (frame.origin.x - (previousFrame.origin.x + previousFrame.size.width)) / 2.f;
+				CGFloat rightSpace = (nextFrame.origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+				
+				frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, frame.size.width + leftSpace + rightSpace, frame.size.height);
+			} else {
+				CGFloat leftSpace = (frame.origin.x - (nextFrame.origin.x + nextFrame.size.width)) / 2.f;
+				CGFloat rightSpace = (previousFrame.origin.x - (frame.origin.x + frame.size.width)) / 2.f;
+				
+				frame = CGRectMake(frame.origin.x - leftSpace, frame.origin.y, frame.size.width + leftSpace + rightSpace, frame.size.height);
+			}
         }
         
         frame = CGRectMake(frame.origin.x, frame.origin.y - 1, frame.size.width, frame.size.height + 1);    // This adjusts for the 1 point of space above and below each tab. We don't want it so we make our frame swallow it up.
@@ -639,35 +678,74 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     return CGRectMake(0, 0, rect.size.width, rect.size.height);
 }
 
+
+- (NSArray *)getOrderedTabBarItemsViews:(UITabBar*)tabBar {
+	NSMutableArray *tabBarItems = [self getOrderedTabBarItemsViewsUnsafe:tabBar];
+	if (tabBarItems == nil) {
+		tabBarItems = [self getOrderedTabBarItemsViewsNotPrecise:tabBar];
+	}
+	return tabBarItems;
+}
+
+
+- (NSArray *)getOrderedTabBarItemsViewsUnsafe:(UITabBar*)tabBar {
+	NSMutableArray *tabBarItems = [NSMutableArray arrayWithCapacity:[tabBar.items count]];
+	for (UIBarButtonItem *item in tabBar.items) {
+		UIView *view = [item valueForKey:@"view"];
+		if  (view == nil) {
+			return nil;
+		}
+		
+		[tabBarItems addObject:view];
+	}
+	// TODO: uncomment
+	return nil;//tabBarItems;
+}
+
+
+- (NSArray *)getOrderedTabBarItemsViewsNotPrecise:(UITabBar*)tabBar {
+	NSMutableArray *tabBarItems = [NSMutableArray arrayWithCapacity:[tabBar.items count]];
+	for (UIView *view in tabBar.subviews) {
+		if ([view isKindOfClass:[UIControl class]]) {
+			// check for the selector -frame to prevent crashes in the very unlikely case that in the future
+			// objects thar don't implement -frame can be subViews of an UIView
+			[tabBarItems addObject:view];
+		}
+	}
+	
+	if ([tabBarItems count] == 0) {
+		// no tabBarItems means either no UITabBarButtons were in the subView, or none responded to -frame
+		// return CGRectZero to indicate that we couldn't figure out the frame
+		return nil;
+	}
+	
+	// sort by origin.x of the frame because the items are not necessarily in the correct order
+	BOOL isLeftToRightLayoutDirection = (tabBar.effectiveUserInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionLeftToRight);
+	[tabBarItems sortUsingComparator:^NSComparisonResult(UIView *view1, UIView *view2) {
+		if (view1.frame.origin.x < view2.frame.origin.x) {
+			return isLeftToRightLayoutDirection ? NSOrderedAscending : NSOrderedDescending;
+		}
+		if (view1.frame.origin.x > view2.frame.origin.x) {
+			return isLeftToRightLayoutDirection ? NSOrderedDescending :  NSOrderedAscending;
+		}
+		NSAssert(YES, @"%@ and %@ share the same origin.x. This should never happen and indicates a substantial change in the framework that renders this method useless.", view1, view2);  // Unless you are just reording tabs...
+		return NSOrderedSame;
+	}];
+	
+	return tabBarItems;
+}
+
+
 - (CGRect)frameForTabInTabBar:(UITabBar*)tabBar withIndex:(NSUInteger)index
 {
-    NSMutableArray *tabBarItems = [NSMutableArray arrayWithCapacity:[tabBar.items count]];
-    for (UIView *view in tabBar.subviews) {
-        //        if ([view isKindOfClass:NSClassFromString(@"UITabBarButton")] && [view respondsToSelector:@selector(frame)]) {
-        if ([view isKindOfClass:[UIControl class]]) {
-            // check for the selector -frame to prevent crashes in the very unlikely case that in the future
-            // objects thar don't implement -frame can be subViews of an UIView
-            [tabBarItems addObject:view];
-        }
-    }
+    NSMutableArray *tabBarItems = [self getOrderedTabBarItemsViews:tabBar];
     if ([tabBarItems count] == 0) {
         // no tabBarItems means either no UITabBarButtons were in the subView, or none responded to -frame
         // return CGRectZero to indicate that we couldn't figure out the frame
         return CGRectZero;
     }
-    
-    // sort by origin.x of the frame because the items are not necessarily in the correct order
-    [tabBarItems sortUsingComparator:^NSComparisonResult(UIView *view1, UIView *view2) {
-        if (view1.frame.origin.x < view2.frame.origin.x) {
-            return NSOrderedAscending;
-        }
-        if (view1.frame.origin.x > view2.frame.origin.x) {
-            return NSOrderedDescending;
-        }
-        NSAssert(YES, @"%@ and %@ share the same origin.x. This should never happen and indicates a substantial change in the framework that renders this method useless.", view1, view2);  // Unless you are just reording tabs...
-        return NSOrderedSame;
-    }];
-    
+	
+	
     CGRect frame = CGRectZero;
     if (index < [tabBarItems count]) {
         // viewController is in a regular tab
@@ -692,33 +770,13 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
 
 - (UIView *)viewForTabInTabBar:(UITabBar*)tabBar withIndex:(NSUInteger)index
 {
-    NSMutableArray *tabBarItems = [NSMutableArray arrayWithCapacity:[tabBar.items count]];
-    for (UIView *view in tabBar.subviews) {
-        //        if ([view isKindOfClass:NSClassFromString(@"UITabBarButton")] && [view respondsToSelector:@selector(frame)]) {
-        if ([view isKindOfClass:[UIControl class]]) {
-            // check for the selector -frame to prevent crashes in the very unlikely case that in the future
-            // objects thar don't implement -frame can be subViews of an UIView
-            [tabBarItems addObject:view];
-        }
-    }
+    NSMutableArray *tabBarItems = [self getOrderedTabBarItemsViews:tabBar];
     if ([tabBarItems count] == 0) {
         // no tabBarItems means either no UITabBarButtons were in the subView, or none responded to -frame
         // return CGRectZero to indicate that we couldn't figure out the frame
         return nil;
     }
-    
-    // sort by origin.x of the frame because the items are not necessarily in the correct order
-    [tabBarItems sortUsingComparator:^NSComparisonResult(UIView *view1, UIView *view2) {
-        if (view1.frame.origin.x < view2.frame.origin.x) {
-            return NSOrderedAscending;
-        }
-        if (view1.frame.origin.x > view2.frame.origin.x) {
-            return NSOrderedDescending;
-        }
-        NSAssert(YES, @"%@ and %@ share the same origin.x. This should never happen and indicates a substantial change in the framework that renders this method useless.", view1, view2);  // Unless you are just reording tabs...
-        return NSOrderedSame;
-    }];
-    
+	
     if (index < [tabBarItems count]) {
         // viewController is in a regular tab
         UIView *tabView = tabBarItems[index];
