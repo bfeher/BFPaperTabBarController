@@ -720,7 +720,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
 	}
 	
 	// sort by origin.x of the frame because the items are not necessarily in the correct order
-	BOOL isLeftToRightLayoutDirection = (tabBar.effectiveUserInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionLeftToRight);
+	BOOL isLeftToRightLayoutDirection = ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:tabBar.semanticContentAttribute] == UIUserInterfaceLayoutDirectionLeftToRight);
 	[tabBarItems sortUsingComparator:^NSComparisonResult(UIView *view1, UIView *view2) {
 		if (view1.frame.origin.x < view2.frame.origin.x) {
 			return isLeftToRightLayoutDirection ? NSOrderedAscending : NSOrderedDescending;

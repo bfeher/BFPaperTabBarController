@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT', :file => 'LICENSE.md' }
   s.author       = { "Bence Feher" => "ben.feher@gmail.com" }
   s.source       = { :git => "https://github.com/bfeher/BFPaperTabBarController.git", :tag => "2.2.5" }
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '9.0'
  
   
   s.source_files = 'Classes/*.{h,m}'
