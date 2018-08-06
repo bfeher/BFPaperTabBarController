@@ -5,11 +5,16 @@ BFPaperTabBarController
 > Note that this changelog was started very late, at roughly the time between version 2.1.8 and 2.1.9. Non consecutive jumps in changelog mean that there were incremental builds that weren't released as a pod, typically while solving a problem.
 
 
+
+2.3.0
+---------
+* (^) Fix of wrong position for items in Arabic localization. (Pull Request 27)[https://github.com/bfeher/BFPaperTabBarController/pull/27] by [Anatoliy Pozdeyev](https://github.com/apozdeyev).  
+
+
 2.2.9
 ---------
 * (+) Added double tap to pop to root view controller if selected tab responds to such a call. (Issue 15)[https://github.com/bfeher/BFPaperTabBarController/issues/15]  
 * (+) Added ability to silence invisible touch view via new property: '.userInteractionEnabled'.
-
 
 2.2.8
 ---------
