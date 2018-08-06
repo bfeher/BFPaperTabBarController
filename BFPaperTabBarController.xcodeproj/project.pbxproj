@@ -10,7 +10,6 @@
 		505849231D531DDF00FEE8FE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505849221D531DDF00FEE8FE /* Launch Screen.storyboard */; };
 		F443AA6219E504BF00296483 /* PushTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F443AA6119E504BF00296483 /* PushTestViewController.m */; };
 		F46F2D1019E3A24F00226ADC /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F46F2D0F19E3A24F00226ADC /* iPad.storyboard */; };
-		F46F2D1119E3A24F00226ADC /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F46F2D0F19E3A24F00226ADC /* iPad.storyboard */; };
 		F497CC7819A32F35002B3127 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC7719A32F35002B3127 /* Foundation.framework */; };
 		F497CC7A19A32F35002B3127 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC7919A32F35002B3127 /* CoreGraphics.framework */; };
 		F497CC7C19A32F35002B3127 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC7B19A32F35002B3127 /* UIKit.framework */; };
@@ -19,26 +18,10 @@
 		F497CC8819A32F35002B3127 /* BFPaperAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F497CC8719A32F35002B3127 /* BFPaperAppDelegate.m */; };
 		F497CC8B19A32F35002B3127 /* iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F497CC8919A32F35002B3127 /* iPhone.storyboard */; };
 		F497CC9019A32F35002B3127 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F497CC8F19A32F35002B3127 /* Images.xcassets */; };
-		F497CC9719A32F36002B3127 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC9619A32F36002B3127 /* XCTest.framework */; };
-		F497CC9819A32F36002B3127 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC7719A32F35002B3127 /* Foundation.framework */; };
-		F497CC9919A32F36002B3127 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F497CC7B19A32F35002B3127 /* UIKit.framework */; };
-		F497CCA119A32F36002B3127 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F497CC9F19A32F36002B3127 /* InfoPlist.strings */; };
-		F497CCA319A32F36002B3127 /* BFPaperTabBarControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F497CCA219A32F36002B3127 /* BFPaperTabBarControllerTests.m */; };
 		F497CCAE19A32FAA002B3127 /* BFPaperTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F497CCAD19A32FAA002B3127 /* BFPaperTabBarController.m */; };
-		F497CCAF19A32FAA002B3127 /* BFPaperTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F497CCAD19A32FAA002B3127 /* BFPaperTabBarController.m */; };
 		F4BFBD3519C3D0D900BE0E02 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4BFBD3419C3D0D900BE0E02 /* TestViewController.m */; };
 		F4F2CAB219A5BE1900385596 /* DemoTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F2CAB119A5BE1900385596 /* DemoTabBarController.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		F497CC9A19A32F36002B3127 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F497CC6C19A32F35002B3127 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F497CC7319A32F35002B3127;
-			remoteInfo = BFPaperTabBarController;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		505849221D531DDF00FEE8FE /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -57,7 +40,6 @@
 		F497CC8719A32F35002B3127 /* BFPaperAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BFPaperAppDelegate.m; sourceTree = "<group>"; };
 		F497CC8A19A32F35002B3127 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/iPhone.storyboard; sourceTree = "<group>"; };
 		F497CC8F19A32F35002B3127 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		F497CC9519A32F35002B3127 /* BFPaperTabBarControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BFPaperTabBarControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F497CC9619A32F36002B3127 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F497CC9E19A32F36002B3127 /* BFPaperTabBarControllerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BFPaperTabBarControllerTests-Info.plist"; sourceTree = "<group>"; };
 		F497CCA019A32F36002B3127 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -81,16 +63,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F497CC9219A32F35002B3127 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F497CC9719A32F36002B3127 /* XCTest.framework in Frameworks */,
-				F497CC9919A32F36002B3127 /* UIKit.framework in Frameworks */,
-				F497CC9819A32F36002B3127 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -110,7 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				F497CC7419A32F35002B3127 /* BFPaperTabBarController.app */,
-				F497CC9519A32F35002B3127 /* BFPaperTabBarControllerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -204,24 +175,6 @@
 			productReference = F497CC7419A32F35002B3127 /* BFPaperTabBarController.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F497CC9419A32F35002B3127 /* BFPaperTabBarControllerTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F497CCA919A32F36002B3127 /* Build configuration list for PBXNativeTarget "BFPaperTabBarControllerTests" */;
-			buildPhases = (
-				F497CC9119A32F35002B3127 /* Sources */,
-				F497CC9219A32F35002B3127 /* Frameworks */,
-				F497CC9319A32F35002B3127 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F497CC9B19A32F36002B3127 /* PBXTargetDependency */,
-			);
-			name = BFPaperTabBarControllerTests;
-			productName = BFPaperTabBarControllerTests;
-			productReference = F497CC9519A32F35002B3127 /* BFPaperTabBarControllerTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -232,8 +185,8 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Bence Feher";
 				TargetAttributes = {
-					F497CC9419A32F35002B3127 = {
-						TestTargetID = F497CC7319A32F35002B3127;
+					F497CC7319A32F35002B3127 = {
+						DevelopmentTeam = WSJS6VD7PJ;
 					};
 				};
 			};
@@ -251,7 +204,6 @@
 			projectRoot = "";
 			targets = (
 				F497CC7319A32F35002B3127 /* BFPaperTabBarController */,
-				F497CC9419A32F35002B3127 /* BFPaperTabBarControllerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -266,15 +218,6 @@
 				F497CC8219A32F35002B3127 /* InfoPlist.strings in Resources */,
 				505849231D531DDF00FEE8FE /* Launch Screen.storyboard in Resources */,
 				F497CC8B19A32F35002B3127 /* iPhone.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F497CC9319A32F35002B3127 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F46F2D1119E3A24F00226ADC /* iPad.storyboard in Resources */,
-				F497CCA119A32F36002B3127 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,24 +253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F497CC9119A32F35002B3127 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F497CCAF19A32FAA002B3127 /* BFPaperTabBarController.m in Sources */,
-				F497CCA319A32F36002B3127 /* BFPaperTabBarControllerTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		F497CC9B19A32F36002B3127 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F497CC7319A32F35002B3127 /* BFPaperTabBarController */;
-			targetProxy = F497CC9A19A32F36002B3127 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F497CC8019A32F35002B3127 /* InfoPlist.strings */ = {
@@ -391,6 +317,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = mh_execute;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -423,6 +350,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = mh_execute;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -432,10 +360,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = WSJS6VD7PJ;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BFPaperTabBarController/BFPaperTabBarController-Prefix.pch";
 				INFOPLIST_FILE = "BFPaperTabBarController/BFPaperTabBarController-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = mh_execute;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bencefeher.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -447,56 +377,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = WSJS6VD7PJ;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BFPaperTabBarController/BFPaperTabBarController-Prefix.pch";
 				INFOPLIST_FILE = "BFPaperTabBarController/BFPaperTabBarController-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MACH_O_TYPE = mh_execute;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bencefeher.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		F497CCAA19A32F36002B3127 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BFPaperTabBarController.app/BFPaperTabBarController";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BFPaperTabBarController/BFPaperTabBarController-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "BFPaperTabBarControllerTests/BFPaperTabBarControllerTests-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.bencefeher.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		F497CCAB19A32F36002B3127 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BFPaperTabBarController.app/BFPaperTabBarController";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BFPaperTabBarController/BFPaperTabBarController-Prefix.pch";
-				INFOPLIST_FILE = "BFPaperTabBarControllerTests/BFPaperTabBarControllerTests-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.bencefeher.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -517,15 +407,6 @@
 			buildConfigurations = (
 				F497CCA719A32F36002B3127 /* Debug */,
 				F497CCA819A32F36002B3127 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F497CCA919A32F36002B3127 /* Build configuration list for PBXNativeTarget "BFPaperTabBarControllerTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F497CCAA19A32F36002B3127 /* Debug */,
-				F497CCAB19A32F36002B3127 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

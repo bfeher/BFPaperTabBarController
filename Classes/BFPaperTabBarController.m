@@ -206,7 +206,8 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     self.invisibleTouchView.userInteractionEnabled = YES;
     self.invisibleTouchView.exclusiveTouch = NO;
     
-    UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                        action:@selector(handleLongPress:)];
     press.delegate = self;
     press.delaysTouchesBegan = NO;
     press.delaysTouchesEnded = NO;
@@ -214,6 +215,17 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     press.minimumPressDuration = 0;
     [self.invisibleTouchView addGestureRecognizer:press];
     press = nil;
+    
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                action:@selector(handleDoubleTap:)];
+    doubleTap.delegate = self;
+    doubleTap.delaysTouchesBegan = NO;
+    doubleTap.delaysTouchesEnded = NO;
+    doubleTap.cancelsTouchesInView = NO;
+    doubleTap.numberOfTapsRequired = 2;
+    doubleTap.numberOfTouchesRequired = 1;
+    [self.invisibleTouchView addGestureRecognizer:doubleTap];
+    doubleTap = nil;
     
     self.rippleAnimationQueue = [NSMutableArray array];
     self.deathRowForCircleLayers = [NSMutableArray array];
@@ -278,6 +290,7 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
         }
     }
 }
+
 -(void)setShowTopLine:(BOOL)showTopLine{
     if (_showTopLine != showTopLine) {
         _showTopLine = showTopLine;
@@ -297,6 +310,11 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     }
 
 }
+
+- (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
+    self.invisibleTouchView.userInteractionEnabled = userInteractionEnabled;
+}
+
 
 #pragma mark - KVO Handling
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -363,6 +381,17 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     }
 }
 
+- (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTap
+{
+    if (doubleTap.state == UIGestureRecognizerStateRecognized) {
+        //NSLog(@"Double tap REGOCNIZED");
+        if ([self.selectedViewController respondsToSelector:@selector(popToRootViewControllerAnimated:)]) {
+            //NSLog(@"popToRootViewControllerAnimated");
+            [(UINavigationController *)self.selectedViewController popToRootViewControllerAnimated:YES];
+        }
+    }
+}
+
 
 #pragma mark - Gesture Recognizer Delegate
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -376,8 +405,14 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
 {
     [self setSelectedIndex:index];
     self.selectedTabIndex = index;
-    [self setUnderlineForTabIndex:index animated:animated];
     [self setBackgroundFadeLayerForTabAtIndex:index];
+    
+    if (self.showTopLine)
+        [self setToplineForTabIndex:index animated:animated];
+    
+    if (self.showUnderline)
+        [self setUnderlineForTabIndex:index animated:animated];
+    
 }
 
 
