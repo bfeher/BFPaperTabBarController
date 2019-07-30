@@ -167,6 +167,12 @@ CGFloat const bfPaperTabBarController_tapCircleDiameterDefault = -2.f;
     }
 }
 
+- (void)setViewControllers:(NSArray<__kindof UIViewController *> * __nullable)viewControllers animated:(BOOL)animated {
+	[super setViewControllers:viewControllers animated:animated];
+	
+	self.tabRects = nil;
+}
+
 
 #pragma mark - Setup
 - (void)setupBFPaperTabBarController
